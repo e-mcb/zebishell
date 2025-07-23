@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:31:47 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/21 23:00:52 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/24 00:36:08 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_exec
 	bool			heredoc_bool;
 	struct s_exec	*next;
 	int				pid;
+	bool			amb_redir;
 }	t_exec;
 
 typedef struct s_shell
@@ -124,6 +125,7 @@ typedef struct s_expand
 	bool	in_single_quote;
 	bool	in_double_quote;
 	char	**result;
+	// bool	to_split;
 }	t_expand;
 
 typedef struct s_splitter
@@ -191,11 +193,12 @@ int			add_token(t_shell *shell, char *str, t_token_type type, int rank);
 void		cleanup_token(char **expanded, char ***splitted);
 t_token		*new_token_append(t_token *head, char *str,
 				t_token_type type, t_shell *shell);
+t_envvar	*create_env_var(char *str, int exported, t_shell *shell);
 
 //builtins
 int			ft_export(char **str, t_shell *shell, int exec_size, int fd_out);
 int			ft_cd(char **str, t_shell *shell);
-int			ft_echo(char **str, t_shell *shell, int exec_size, int fd_out);
+int			ft_echo(t_exec **exec, t_shell *shell, int exec_size, int fd_out);
 int			ft_env(char **str, t_shell *shell, int exec_size, int fd_out);
 int			ft_exit(char **arr, t_shell *shell, int exec_size);
 int			ft_pwd(int fd_out, int exec_size);
@@ -222,6 +225,7 @@ void		case_only_dollar(t_expand *ex);
 void		case_question_mark(t_expand *ex, t_shell *shell);
 void		case_env_var(t_expand *ex, char *input, t_shell *shell);
 t_token		*skip_to_pipe(t_token *token);
+int			is_case_only_dollar(char *input, t_expand *ex);
 
 //tmp
 char		**split_keep_separators(const char *s, bool (*is_sep)(char),

@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 22:30:37 by sradosav          #+#    #+#             */
-/*   Updated: 2025/07/20 18:44:43 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/24 00:55:01 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	ft_cd(char **str, t_shell *shell)
 	char	cwd[1024];
 
 	pwd = ft_getenv("PWD", shell);
+	if (!pwd)
+	
 	shell->exit_status = 1;
 	if (!str[1] || str[2])
 	{

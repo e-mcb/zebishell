@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:55:23 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/22 02:05:26 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/23 20:48:29 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	ft_parsing(char *input, t_shell *shell)
 	int		i;
 	t_token	*tmp;
 	t_token	*t;
-	t_token *temp;
 
 	i = -1;
 	shell->splitted = ft_split2(input);
@@ -90,12 +89,6 @@ void	ft_parsing(char *input, t_shell *shell)
 		tmp = tmp->next;
 	}
 	expand(shell);
-	temp = shell->token;
-	while (temp)
-	{
-		printf("Token: %s\n", temp->value);
-		temp = temp->next;
-	}
 	second_refine_token_type(shell->token, shell);
 	shell->splitted = NULL;
 }

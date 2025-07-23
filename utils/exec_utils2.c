@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 21:54:14 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/20 18:28:04 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/23 23:45:13 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	call_builtin(t_shell *shell, t_exec *cur_exec, char *cmd)
 
 	exec_size = ft_execsize(shell->exec);
 	if (ft_strcmp(cmd, "echo") == 0)
-		return (ft_echo(cur_exec->arr, shell, exec_size, cur_exec->fd_out));
+		return (ft_echo(&cur_exec, shell, exec_size, cur_exec->fd_out));
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (ft_cd(cur_exec->arr, shell));
 	if (ft_strcmp(cmd, "pwd") == 0)

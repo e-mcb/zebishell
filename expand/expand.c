@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 20:32:53 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/22 02:19:59 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/23 21:36:47 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 
 	splitted = NULL;
 	*expanded = join_chars(split_and_expand((*tmp)->value, shell), shell);
-	if (*expanded && (*expanded)[0] != 0)
+	if (*expanded)
 	{
 		if ((*tmp)->type == FILEN)
 			splitted = split_keep_separators(*expanded, is_whitespace, shell);
@@ -92,6 +92,8 @@ int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 		{
 			amb_redir(*expanded, shell, tmp);
 			(*tmp)->amb_redir = true;
+			free((*tmp)->value);
+			(*tmp)->value = ft_strdup(*expanded);
 			return (free(*expanded), ft_free_str_array(splitted), 0);
 		}
 		*tmp = insert_new_nodes(shell, *prev, *tmp, splitted);
@@ -100,6 +102,8 @@ int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 	}
 	else
 	{
+		if ((*tmp)->type == FILEN && !(*tmp)->value)
+			amb_redir(*expanded, shell, tmp);
 		free((*tmp)->value);
 		(*tmp)->value = NULL;
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 22:31:46 by sradosav          #+#    #+#             */
-/*   Updated: 2025/07/22 00:03:35 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/23 21:27:38 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,26 +58,28 @@ static int	ft_putstr_fd_echo(char *s, int exec_size, int fd_out)
 	return (0);
 }
 
-int	ft_echo(char **str, t_shell *shell, int exec_size, int fd_out)
+int	ft_echo(t_exec **exec, t_shell *shell, int exec_size, int fd_out)
 {
 	int	i;
 	int	newline;
 
 	i = 1;
 	newline = 1;
-	while (str[i] && is_n_flag(str[i]))
+	if ((*exec)->amb_redir)
+		return(1);
+	while ((*exec)->arr[i] && is_n_flag((*exec)->arr[i]))
 	{
 		newline = 0;
 		i++;
 	}
 	if (exec_size > 1)
 		fd_out = 1;
-	while (str[i])
+	while ((*exec)->arr[i])
 	{
-		if (ft_putstr_fd_echo(str[i], exec_size, fd_out) == 1)
+		if (ft_putstr_fd_echo((*exec)->arr[i], exec_size, fd_out) == 1)
 			return (1);
-		if (str[i + 1]
-			&& ft_strlen(str[i]) > 0 && str[i][ft_strlen(str[i]) - 1] != ' ' && str[i][0] != 0)
+		if ((*exec)->arr[i + 1]
+			&& ft_strlen((*exec)->arr[i]) > 0 && (*exec)->arr[i][ft_strlen((*exec)->arr[i]) - 1] != ' ' && (*exec)->arr[i][0] != 0)
 			ft_putstr_fd(" ", fd_out);
 		i++;
 	}

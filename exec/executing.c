@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 22:56:11 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/20 17:49:12 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/23 23:45:05 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,13 @@ void	exec_loop(t_shell *shell)
 	int		pipe_fd[2];
 	int		prev_fd_in;
 	pid_t	last_pid;
+	int		ret;
 
+	ret = 0;
 	tmp = shell->exec;
 	prev_fd_in = STDIN_FILENO;
-	if (should_run_single_builtin(shell, tmp))
+	ret = should_run_single_builtin(shell, tmp);
+	if (ret)
 		return ;
 	last_pid = execute_all_commands(shell, tmp, pipe_fd, prev_fd_in);
 	if (prev_fd_in != STDIN_FILENO)

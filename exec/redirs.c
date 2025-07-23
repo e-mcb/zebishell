@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 22:47:29 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/04 02:11:41 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/23 23:39:34 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ static int	handle_out(t_exec *exec, t_token *tmp)
 {
 	if (exec->fd_out > 1)
 		close(exec->fd_out);
+	if (tmp->next->amb_redir)
+	{
+		return (2);
+	}
 	exec->fd_out = open(tmp->next->value, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (exec->fd_out < 0)
 	{
@@ -43,6 +47,10 @@ static int	handle_append(t_exec *exec, t_token *tmp)
 {
 	if (exec->fd_out > 1)
 		close(exec->fd_out);
+	if (tmp->next->amb_redir)
+	{
+		return (2);
+	}
 	exec->fd_out = open(tmp->next->value, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (exec->fd_out < 0)
 	{
@@ -89,6 +97,8 @@ t_token	*handle_redir(t_exec *exec, t_token *tmp, t_shell *shell)
 		skip = handle_append(exec, tmp);
 	else if (tmp->type == HDOC)
 		skip = handle_heredoc(exec, tmp, shell);
+	if (skip == 2)
+		exec->amb_redir = true;
 	if (skip)
 	{
 		if (exec->fd_in > 0)

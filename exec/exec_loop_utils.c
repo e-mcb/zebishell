@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 19:50:50 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/20 18:27:05 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/23 23:38:17 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	should_run_single_builtin(t_shell *shell, t_exec *cmd)
 	if (!ft_is_builtin(cmd->arr[0]))
 		return (0);
 	shell->exit_status = handle_builtin(shell, cmd);
+	if (shell->exit_status == -1)
+		return (-1);
 	return (1);
 }
 

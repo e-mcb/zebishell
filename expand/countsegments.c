@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   countsegments.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 14:35:14 by mzutter           #+#    #+#             */
-/*   Updated: 2025/06/30 23:42:38 by sradosav         ###   ########.fr       */
+/*   Updated: 2025/07/23 20:29:13 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	is_case_only_dollar(char *input, t_expand *ex)
+{
+	if (input[ex->i + 1] == ' ' || input[ex->i + 1] == '\0'
+		|| (input[ex->i + 1] == '\"' && ex->in_double_quote)
+		|| input[ex->i + 1] == '+' || input[ex->i + 1] == '='
+		|| input[ex->i + 1] == ':')
+		return (1);
+	return (0);
+}
 
 static void	process_single_quote(t_expand *ex)
 {
@@ -37,7 +47,7 @@ static void	process_dollar(char *input, t_expand *ex)
 	if (input[ex->i + 1] && (ft_isdigit(input[ex->i + 1])
 			|| input[ex->i + 1] == '$'))
 		ex->i += 2;
-	else if (input[ex->i + 1] == ' ' || input[ex->i + 1] == '\0')
+	else if (is_case_only_dollar(input, ex))
 	{
 		ex->count++;
 		ex->i += 1;

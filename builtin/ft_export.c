@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 22:32:04 by sradosav          #+#    #+#             */
-/*   Updated: 2025/07/22 02:03:52 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/23 20:22:37 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,6 @@ void	ft_write_export(char *str, int fd_out)
 	write(fd_out, "\n", 1);
 }
 
-// void	ft_print_export(t_shell *shell, int fd_out)
-// {
-// 	t_envvar	*env_copy;
-// 	t_envvar	*iter;
-
-// 	env_copy = copy_env_list(shell->env, shell);
-// 	ft_sort_env_list(env_copy);
-// 	iter = env_copy;
-// 	while (iter)
-// 	{
-// 		if (iter->exported == 1)
-// 			ft_write_export(iter->var, fd_out);
-// 		iter = iter->next;
-// 	}
-// 	free_env_list(&env_copy);
-// }
-
 void	ft_print_export(t_shell *shell, int fd_out, int exec_size)
 {
 	t_envvar	*env_copy;
@@ -75,6 +58,66 @@ void	ft_print_export(t_shell *shell, int fd_out, int exec_size)
 	free_env_list(&env_copy);
 }
 
+void	export_existing_var(char *var, t_shell *shell)
+{
+	char		*full_var;
+	t_envvar	*copy_env;
+	size_t		len;
+
+	full_var = ft_strjoin(var, "=");
+	if (!full_var)
+		ft_clean_exit(NULL, shell, NULL, NULL);
+	len = ft_strlen(full_var);
+	copy_env = shell->env;
+	while (copy_env)
+	{
+		if (envvar_match(copy_env->var, var, len, full_var))
+		{
+			copy_env->exported = 1;
+			free(full_var);
+			return ;
+		}
+		copy_env = copy_env->next;
+	}
+	free(full_var);
+}
+
+int	add_env_var_without_value(t_envvar **head,
+	char *str, int exported, t_shell *shell)
+{
+	t_envvar	*new_node;
+	t_envvar	*current;
+
+	new_node = create_env_var(str, exported, shell);
+	if (!new_node)
+	{
+		free_env_list(head);
+		ft_clean_exit(NULL, shell, NULL, NULL);
+	}
+	if (!*head)
+	{
+		*head = new_node;
+		return (1);
+	}
+	current = *head;
+	while (current->next)
+		current = current->next;
+	current->next = new_node;
+	return (1);
+}
+
+void	update_or_add_without_value(char *var, t_shell *shell)
+{
+	int		exists;
+
+	exists = env_var_exists(var, shell);
+	if (exists == 1)
+		export_existing_var(var, shell);
+	else
+		add_env_var_without_value(&(shell->env), var, 1, shell);
+	return ;
+}
+
 void	handle_valid_export(char *str, t_shell *shell)
 {
 	int		var_len;
@@ -88,10 +131,12 @@ void	handle_valid_export(char *str, t_shell *shell)
 	if (!var)
 		ft_clean_exit(NULL, shell, NULL, NULL);
 	if (ft_strchr(str, '='))
+	{
 		value = ft_strchr(str, '=') + 1;
+		update_or_add(var, value, shell, 1);
+	}
 	else
-		value = "";
-	update_or_add(var, value, shell, 1);
+		update_or_add_without_value(var, shell);
 	free(var);
 }
 

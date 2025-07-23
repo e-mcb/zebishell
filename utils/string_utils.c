@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:30:41 by mzutter           #+#    #+#             */
-/*   Updated: 2025/06/23 16:40:43 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/23 19:50:29 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ char	*strndup_custom(const char *s, size_t n, t_shell *shell)
 	char	*res;
 
 	res = malloc(n + 1);
+	res[0] = 0;
 	if (!res)
 		ft_clean_exit(NULL, shell, NULL, NULL);
 	ft_strncpy(res, s, n);

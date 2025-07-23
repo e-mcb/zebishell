@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 22:39:57 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/21 22:53:59 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/23 21:24:49 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_exec	*init_exec(void)
 	exec->heredoc = NULL;
 	exec->heredoc_bool = false;
 	exec->pid = -1;
+	exec->amb_redir = false;
 	return (exec);
 }
 

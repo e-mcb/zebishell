@@ -125,3 +125,48 @@ minishell> l$hola
 minishell: ls -la: command not found 
 
 dans refine token2, faire 1 split du tout premier token de chaque pipe (splitter seulement le premier mot du premier token)
+
+________________________________________________________
+
+minishell> export HOLA="   -n bonjour   "  
+minishell> echo $HOLA
+   -n bonjour   
+(gestion des quotes dans expand, si in_quotes, split with sep, sinon single token)
+minishell> export HOLA="s -la" 
+minishell> l$HOLA
+minishell: ls -la: command not found 
+
+unset "" -> ne fait rien, devrait afficher "bash: unset: `': not a valid identifier
+$>"
+
+
+unset 9idiot devrait renvoyer not a valid identifier
+unset id?iot (comme export)
+unset PWD puis cd crash
+
+"$> mkdir a
+$> mkdir a/b
+$> cd a/b
+$> rm -r ../../a
+$> pwd"                          Faire attention aux chemins relatifs
+
+minishell> minishell
+direct path not found: Permission denied
+ minishell a lancer depuis le temps seulement si minishell et pas ./minishell
+
+ minishell> exit salut sa race
+exit: too many arguments         ordre de la gestion d'erreur
+
+redirections cassees
+
+minishell> echo salut > bonjour
+minishell> exit | cat -e bonjour
+cat: bonjour: No such file or directory
+minishell> ls
+builtin  expand  hola	   input_check	Makefile   objects    todo.txt	 utils
+exec	 export  includes  main.c	minishell  README.md  tokenizer  valgrind.supp
+ les redirs petent apres 2 cat de suite cat | cat | ls ????????????????????????????????????????????????
+
+ backup du 21 juillet fonctionne tjrs
+
+ 

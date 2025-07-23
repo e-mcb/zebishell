@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 22:30:55 by sradosav          #+#    #+#             */
-/*   Updated: 2025/07/20 16:09:25 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/23 20:23:46 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	free_env_list(t_envvar **head)
 	*head = NULL;
 }
 
-static t_envvar	*create_env_var(char *str, int exported, t_shell *shell)
+t_envvar	*create_env_var(char *str, int exported, t_shell *shell)
 {
 	t_envvar	*node;
 
