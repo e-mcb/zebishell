@@ -63,6 +63,8 @@ int	ft_count_segments(char *input)
 {
 	t_expand	ex;
 
+	if (!input)
+		return (0);
 	ex.i = 0;
 	ex.j = 0;
 	ex.count = 0;

@@ -68,8 +68,6 @@ void	case_env_var(t_expand *ex, char *input, t_shell *shell)
 	value = get_env_value(varname, shell);
 	if (value)
 		ex->result[ex->j++] = value;
-	else
-		
 	free(varname);
 	ex->start = ex->i;
 }

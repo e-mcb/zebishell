@@ -20,6 +20,7 @@ static void	init_ex(t_expand *ex)
 	ex->start = 0;
 	ex->in_single_quote = false;
 	ex->in_double_quote = false;
+	ex->result = NULL;
 }
 
 static void	process_single_quote(const char *input,
@@ -42,6 +43,8 @@ static void	process_double_quote(const char *input,
 	if (ex->i > ex->start)
 		ex->result[ex->j++] = strndup_custom(input + ex->start,
 				ex->i - ex->start, shell);
+	if (!ex->in_double_quote && input[ex->i + 1] && input[ex->i + 1] == '"')
+		ex->result[ex->j++] = ft_strdup("");
 	ex->in_double_quote = !ex->in_double_quote;
 	ex->i++;
 	ex->start = ex->i;
@@ -72,9 +75,17 @@ static void	process_dollar(char *input, t_expand *ex, t_shell *shell)
 char	**split_and_expand(char *input, t_shell *shell)
 {
 	t_expand	ex;
+	int			size;
 
 	init_ex(&ex);
-	ex.result = malloc(sizeof(char *) * (ft_count_segments(input) + 1));
+	size = ft_count_segments(input);
+	ex.result = malloc(sizeof(char *) * (size + 1));
+	ex.result[0] = NULL;
+	if (size == 0)
+	{
+		ex.result[0] = NULL;
+		return (ex.result);
+	}
 	if (!ex.result)
 		ft_clean_exit(NULL, shell, NULL, NULL);
 	while (input[ex.i])

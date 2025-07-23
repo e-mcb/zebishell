@@ -61,8 +61,8 @@ void	ft_print_export(t_shell *shell, int fd_out, int exec_size)
 {
 	t_envvar	*env_copy;
 	t_envvar	*iter;
-	(void) exec_size;
 
+	(void) exec_size;
 	env_copy = copy_env_list(shell->env, shell);
 	ft_sort_env_list(env_copy);
 	iter = env_copy;

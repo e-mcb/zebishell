@@ -35,7 +35,7 @@ void	ft_free_str_array(char **arr)
 	i = 0;
 	if (!arr)
 		return ;
-	while (arr[i] != NULL && arr[i][0] != 0)
+	while (arr[i] != NULL)
 	{
 		free(arr[i]);
 		i++;

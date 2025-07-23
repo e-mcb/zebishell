@@ -43,6 +43,7 @@ void	close_parent_fds(t_exec *tmp, int *pipe_fd, int *prev_fd_in)
 int	should_run_single_builtin(t_shell *shell, t_exec *cmd)
 {
 	int	arr_size;
+	int	count;
 
 	if (!cmd)
 		return (0);
@@ -51,7 +52,10 @@ int	should_run_single_builtin(t_shell *shell, t_exec *cmd)
 	arr_size = ft_execsize(cmd);
 	if (arr_size != 1)
 		return (0);
-	update_or_add("_", cmd->arr[count_strings(cmd->arr) - 1], shell, 0);
+	count = count_strings(cmd->arr);
+	if (count == 0 || !cmd->arr[count - 1])
+		return (0);
+	update_or_add("_", cmd->arr[count - 1], shell, 0);
 	if (!ft_is_builtin(cmd->arr[0]))
 		return (0);
 	shell->exit_status = handle_builtin(shell, cmd);

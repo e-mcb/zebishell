@@ -12,6 +12,15 @@
 
 #include "../includes/minishell.h"
 
+void	init_splitter(t_splitter *splitter)
+{
+	splitter->i = 0;
+	splitter->start = 0;
+	splitter->count = 0;
+	splitter->capacity = 4;
+}
+
+
 static size_t	next_chunk_end(const char *s,
 	size_t start, bool (*is_sep)(char))
 {
@@ -52,31 +61,53 @@ char	**chunk_handl(char **res, size_t *count_ptr,
 	return (res);
 }
 
+static char	**process_chunks_loop(const char *s,
+	t_splitter *splitter, bool (*is_sep)(char), char **res)
+{
+	char *chunk;
+
+	while (s[splitter->i])
+	{
+		splitter->i = next_chunk_end(s, splitter->start, is_sep);
+		chunk = ft_substr(s, splitter->start, splitter->i - splitter->start);
+		if (!chunk)
+			return (NULL);
+		res = chunk_handl(res, &splitter->count, &splitter->capacity, chunk);
+		if (!res)
+			return (NULL);
+		splitter->start = splitter->i;
+	}
+	res[splitter->count] = NULL;
+	return res;
+}
+
+static char	**handle_empty_input(t_shell *shell)
+{
+	char **res = malloc(sizeof(char *) * 2);
+	if (!res)
+		ft_clean_exit(NULL, shell, NULL, NULL);
+	res[0] = ft_strdup("");
+	if (!res[0])
+		ft_clean_exit(NULL, shell, NULL, NULL);
+	res[1] = NULL;
+	return res;
+}
+
 char	**split_keep_separators(const char *s,
 	bool (*is_sep)(char), t_shell *shell)
 {
 	char		**res;
 	t_splitter	splitter;
-	char		*chunk;
 
-	splitter.i = 0;
-	splitter.start = 0;
-	splitter.count = 0;
-	splitter.capacity = 4;
+	if (s[0] == '\0')
+		return handle_empty_input(shell);
+
+	init_splitter(&splitter);
 	res = malloc(sizeof(char *) * splitter.capacity);
 	if (!res)
 		ft_clean_exit(NULL, shell, NULL, NULL);
-	while (s[splitter.i])
-	{
-		splitter.i = next_chunk_end(s, splitter.start, is_sep);
-		chunk = ft_substr(s, splitter.start, splitter.i - splitter.start);
-		if (!chunk)
-			return (NULL);
-		res = chunk_handl(res, &(splitter.count), &(splitter.capacity), chunk);
-		if (!res)
-			return (NULL);
-		splitter.start = splitter.i;
-	}
-	res[(splitter.count)] = NULL;
-	return (res);
+
+	res = process_chunks_loop(s, &splitter, is_sep, res);
+	return res;
 }
+

@@ -111,10 +111,12 @@ t_token	*skip_to_pipe(t_token *token)
 
 char	**add_string_to_array(char **array, char *str, t_shell *shell)
 {
-	int		i = 0;
-	int		j = 0;
+	int		i;
+	int		j;
 	char	**new_array;
 
+	i = 0;
+	j = 0;
 	while (array && array[i])
 		i++;
 	new_array = malloc((i + 2) * sizeof(char *));
@@ -139,7 +141,6 @@ char	**add_string_to_array(char **array, char *str, t_shell *shell)
 		free(array);
 	return (new_array);
 }
-
 
 void	create_exec(t_shell *shell)
 {

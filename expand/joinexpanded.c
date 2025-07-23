@@ -48,10 +48,10 @@ char	*join_chars(char **str, t_shell *shell)
 	int		j;
 	int		k;
 	char	*expanded;
-
+	
 	if (!str)
 		return (ft_free_str_array_join(str), NULL);
-	if (!str[0])
+	if (str[0] == NULL)
 		return (ft_free_str_array_join(str), NULL);
 	expanded = malloc(sizeof(char) * (array_len(str) + 1));
 	if (!expanded)

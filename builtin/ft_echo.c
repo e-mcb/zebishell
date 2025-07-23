@@ -34,19 +34,25 @@ int	is_n_flag(char *s)
 static int	ft_putstr_fd_echo(char *s, int exec_size, int fd_out)
 {
 	int	i;
+	int	ret;
 
+	ret = 0;
 	if (!s)
 		return (1);
 	if (exec_size > 1)
 		fd_out = 1;
 	i = 0;
+	if (s[0] == '\0')
+		ret = write(fd_out, " ", 1);
+	if (ret == -1)
+	{
+		perror("echo");
+		return (1);
+	}
 	while (s[i])
 	{
 		if (write(fd_out, &s[i], 1) == -1)
-		{
-			perror("echo");
-			return (1);
-		}
+			return (perror("echo"), 1);
 		i++;
 	}
 	return (0);
@@ -70,7 +76,8 @@ int	ft_echo(char **str, t_shell *shell, int exec_size, int fd_out)
 	{
 		if (ft_putstr_fd_echo(str[i], exec_size, fd_out) == 1)
 			return (1);
-		if (str[i + 1] && (str[i][ft_strlen(str[i]) - 1] != ' '))
+		if (str[i + 1]
+			&& ft_strlen(str[i]) > 0 && str[i][ft_strlen(str[i]) - 1] != ' ' && str[i][0] != 0)
 			ft_putstr_fd(" ", fd_out);
 		i++;
 	}

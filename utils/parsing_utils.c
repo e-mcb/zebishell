@@ -56,7 +56,8 @@ void	ft_parsing(char *input, t_shell *shell)
 {
 	int		i;
 	t_token	*tmp;
-	t_token	*temp;
+	t_token	*t;
+	t_token *temp;
 
 	i = -1;
 	shell->splitted = ft_split2(input);
@@ -65,6 +66,19 @@ void	ft_parsing(char *input, t_shell *shell)
 	free (input);
 	while (shell->splitted[++i])
 		tokenizer(shell, i);
+	t = shell->token;
+	while (t)
+	{
+		if (((t->value[0] == '"' && t->value[1] == '"')
+				|| (t->value[0] == '\'' && t->value[1] == '\''))
+			&& t->value[2] == 0)
+		{
+			free(t->value);
+			t->value = ft_strdup(""); //"" remplacé par empty string, chiant parceque ça entre en conflit avec la gestion
+										//d'un faux expand
+		}
+		t = t->next;
+	}
 	if (shell->splitted != NULL)
 		ft_free_str_array(shell->splitted);
 	refine_token_type(shell->token);
@@ -77,6 +91,11 @@ void	ft_parsing(char *input, t_shell *shell)
 	}
 	expand(shell);
 	temp = shell->token;
-	second_refine_token_type(shell->token);
+	while (temp)
+	{
+		printf("Token: %s\n", temp->value);
+		temp = temp->next;
+	}
+	second_refine_token_type(shell->token, shell);
 	shell->splitted = NULL;
 }

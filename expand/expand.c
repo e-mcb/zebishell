@@ -11,10 +11,8 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <stdbool.h>
-#include <stdio.h>
 
-void	amb_redir(char *str, t_shell *shell)
+void	amb_redir(char *str, t_shell *shell, t_token **tmp)
 {
 	char	*msg;
 
@@ -24,6 +22,7 @@ void	amb_redir(char *str, t_shell *shell)
 	ft_putstr_fd(msg, 2);
 	write(2, "\n", 1);
 	free(msg);
+	(*tmp)->amb_redir = true;
 }
 
 static void	thanks_norminette(t_token **head, t_token **tail, int *i)
@@ -63,16 +62,17 @@ t_token	*insert_new_nodes(t_shell *shell, t_token *prev,
 	return (free(current->value), free(current), tail);
 }
 
-char **create_single_token_array(char *str)
+char	**create_single_token_array(char *str)
 {
-    char **arr = malloc(sizeof(char *) * 2);
-    if (!arr)
-        return NULL;
-    arr[0] = strdup(str);
-    arr[1] = NULL;
-    return arr;
-}
+	char	**arr;
 
+	arr = malloc(sizeof(char *) * 2);
+	if (!arr)
+		return (NULL);
+	arr[0] = strdup(str);
+	arr[1] = NULL;
+	return (arr);
+}
 
 int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 			char **expanded)
@@ -90,7 +90,7 @@ int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 		if (((*tmp)->type == FILEN && count_strings(splitted) > 1)
 			|| ((*tmp)->type == FILEN && splitted[0] == 0))
 		{
-			amb_redir(*expanded, shell);
+			amb_redir(*expanded, shell, tmp);
 			(*tmp)->amb_redir = true;
 			return (free(*expanded), ft_free_str_array(splitted), 0);
 		}
@@ -120,6 +120,12 @@ void	expand(t_shell *shell)
 	skip = 0;
 	while (tmp)
 	{
+		if (tmp->value && tmp->value[0] == 0)
+		{
+			prev = tmp;
+			tmp = tmp->next;
+			continue ;
+		}
 		skip = process_token(shell, &tmp, &prev, &expanded);
 		if (skip)
 			continue ;

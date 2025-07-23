@@ -21,7 +21,11 @@ void	ft_print_arr(char **arr)
 	i = 0;
 	while (arr[i])
 	{
-		printf("%s\n", arr[i]);
+		printf("array:%s\n", arr[i]);
+		if (arr[i][0] == '\0')
+		{
+			printf("empty string in array\n");
+		}
 		i++;
 	}
 }

@@ -44,7 +44,8 @@
 /sbin:/bin"
 # define EOF_HEREDOC "minishell: warning:\
 here-document delimited by end-of-file (wanted '"
-# define SUCCESSIVE_PIPES "minishell: Minishell does not support successive pipes\n"
+# define SUCCESSIVE_PIPES "minishell: \
+Minishell does not support successive pipes\n"
 
 extern int	g_signal;
 
@@ -182,7 +183,7 @@ void		ft_parsing(char *input, t_shell *shell);
 char		**ft_split2(char const *s);
 void		tokenizer(t_shell *shell, int rank);
 void		refine_token_type(t_token *token);
-void		second_refine_token_type(t_token *token);
+void		second_refine_token_type(t_token *token, t_shell *shell);
 
 //linked_list_utils functions
 t_token		*create_token(char *str, t_shell *shell);
@@ -225,6 +226,7 @@ t_token		*skip_to_pipe(t_token *token);
 //tmp
 char		**split_keep_separators(const char *s, bool (*is_sep)(char),
 				t_shell *shell);
+void		init_splitter(t_splitter *splitter);
 
 //exec
 char		*pathfinder(t_shell *shell, t_exec *current);
