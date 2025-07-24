@@ -47,7 +47,15 @@ int	ft_unset(char **str, t_shell *shell, int exec_size)
 	{
 		while (str[i])
 		{
-			delete_node(str[i], &shell->env);
+			if (!is_valid_identifier(str[i]))
+			{
+				ft_putstr_fd("minishell: unset: ", 2);
+				ft_putstr_fd(str[i], 2);
+				ft_putstr_fd(": not a valid identifier\n", 2);
+				return (1);
+			}
+			else
+				delete_node(str[i], &shell->env);
 			i++;
 		}
 	}
