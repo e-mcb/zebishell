@@ -24,16 +24,17 @@ void	init_splitter(t_splitter *splitter)
 static size_t	next_chunk_end(const char *s,
 	size_t start, bool (*is_sep)(char))
 {
-	size_t	i;
+	size_t i = start;
 
-	i = start;
+	// Include leading separators
 	while (s[i] && is_sep(s[i]))
 		i++;
+
+	// Include word (non-separators)
 	while (s[i] && !is_sep(s[i]))
 		i++;
-	while (s[i] && is_sep(s[i]))
-		i++;
-	return (i);
+
+	return i;
 }
 
 char	**chunk_handl(char **res, size_t *count_ptr,
@@ -65,21 +66,33 @@ static char	**process_chunks_loop(const char *s,
 	t_splitter *splitter, bool (*is_sep)(char), char **res)
 {
 	char *chunk;
+	size_t len = ft_strlen(s);
 
-	while (s[splitter->i])
+	while (splitter->i < len)
 	{
 		splitter->i = next_chunk_end(s, splitter->start, is_sep);
+
+		// If we're at the end, we may want to include trailing spaces
+		if (splitter->i >= len)
+		{
+			// Include any remaining spaces at the end
+			while (s[splitter->i] && is_sep(s[splitter->i]))
+				splitter->i++;
+		}
+
 		chunk = ft_substr(s, splitter->start, splitter->i - splitter->start);
 		if (!chunk)
 			return (NULL);
 		res = chunk_handl(res, &splitter->count, &splitter->capacity, chunk);
 		if (!res)
 			return (NULL);
+
 		splitter->start = splitter->i;
 	}
 	res[splitter->count] = NULL;
 	return res;
 }
+
 
 static char	**handle_empty_input(t_shell *shell)
 {

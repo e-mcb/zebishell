@@ -72,6 +72,7 @@ typedef struct s_token
 	struct s_token	*next;
 	bool			amb_redir;
 	bool			in_quotes;
+	bool			to_split;
 }	t_token;
 
 typedef struct s_quote_state
@@ -125,7 +126,6 @@ typedef struct s_expand
 	bool	in_single_quote;
 	bool	in_double_quote;
 	char	**result;
-	// bool	to_split;
 }	t_expand;
 
 typedef struct s_splitter

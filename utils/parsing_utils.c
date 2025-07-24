@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdio.h>
 
 int	ft_has_invalid_quotes(const char *str)
 {
@@ -57,6 +58,7 @@ void	ft_parsing(char *input, t_shell *shell)
 	int		i;
 	t_token	*tmp;
 	t_token	*t;
+	t_token *temp;
 
 	i = -1;
 	shell->splitted = ft_split2(input);
@@ -87,6 +89,12 @@ void	ft_parsing(char *input, t_shell *shell)
 		if (ft_strchr(tmp->value, '\'') || ft_strchr(tmp->value, '"'))
 			tmp->in_quotes = true;
 		tmp = tmp->next;
+	}
+	temp = shell->token;
+	while (temp)
+	{
+		printf("token: %s\n", temp->value);
+		temp = temp->next;
 	}
 	expand(shell);
 	second_refine_token_type(shell->token, shell);

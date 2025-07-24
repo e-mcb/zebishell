@@ -21,13 +21,51 @@ int	ft_isspace(int c)
 	return (0);
 }
 
-static char	*get_env_value(char *name, t_shell *shell)
+char	*ft_strtrim_whitespace(char const *s1)
+{
+	char	*str;
+	size_t	i;
+	size_t	start;
+	size_t	end;
+
+	if (!s1)
+		return (NULL);
+
+	start = 0;
+	while (s1[start] && ft_isspace((unsigned char)s1[start]))
+		start++;
+
+	end = ft_strlen(s1);
+	while (end > start && ft_isspace((unsigned char)s1[end - 1]))
+		end--;
+
+	str = (char *)malloc(sizeof(*s1) * (end - start + 1));
+	if (!str)
+		return (NULL);
+
+	i = 0;
+	while (start < end)
+		str[i++] = s1[start++];
+	str[i] = '\0';
+
+	return (str);
+}
+
+
+
+static char	*get_env_value(char *name, t_shell *shell, t_expand *ex)
 {
 	char	*value;
+	char	*ret;
 
 	value = ft_getenv(name, shell);
 	if (!value)
 		return (NULL);
+	if (!ex->in_double_quote)
+	{
+		ret = ft_strtrim_whitespace(value);
+		return (ret);
+	}
 	return (ft_strdup(value));
 }
 
@@ -65,7 +103,7 @@ void	case_env_var(t_expand *ex, char *input, t_shell *shell)
 		&& (ft_isalnum(input[ex->i]) || input[ex->i] == '_'))
 		ex->i++;
 	varname = strndup_custom(input + ex->start, ex->i - ex->start, shell);
-	value = get_env_value(varname, shell);
+	value = get_env_value(varname, shell, ex);
 	if (value)
 		ex->result[ex->j++] = value;
 	free(varname);

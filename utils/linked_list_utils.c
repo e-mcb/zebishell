@@ -28,6 +28,7 @@ t_token	*create_token(char *str, t_shell *shell)
 	}
 	new_token->next = NULL;
 	new_token->in_quotes = false;
+	new_token->to_split = true;
 	return (new_token);
 }
 
