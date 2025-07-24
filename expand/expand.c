@@ -47,7 +47,6 @@ t_token	*insert_new_nodes(t_shell *shell, t_token *prev,
 		if (!new_node)
 			ft_clean_exit(NULL, shell, NULL, NULL);
 		new_node->type = current->type;
-		new_node->to_split = false;
 		if (!head)
 			head = new_node;
 		else
