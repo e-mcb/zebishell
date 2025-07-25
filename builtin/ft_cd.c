@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 22:30:37 by sradosav          #+#    #+#             */
-/*   Updated: 2025/07/24 00:55:01 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/26 00:41:28 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@ int	ft_cd(char **str, t_shell *shell)
 	if (!pwd_env)
 		ft_clean_exit(NULL, shell, NULL, NULL);
 	
-	// shell->exit_status = 1;  inutile ???
 	if (!str[1] || str[2])
 	{
 		if (!str[1])
-			ft_putstr_fd("minishell: cd: missing argument\n", 2);
+			ft_putstr_fd("minishell: cd: missing argument\n", 2); //ici retourner au home
 		else
 			ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		free(pwd_env);

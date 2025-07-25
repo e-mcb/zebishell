@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 20:32:53 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/25 22:53:41 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/26 00:25:07 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_token	*insert_new_nodes(t_shell *shell, t_token *prev,
 		if (!new_node)
 			ft_clean_exit(NULL, shell, NULL, NULL);
 		new_node->type = current->type;
+		new_node->in_quotes = current->in_quotes_hdoc;
 		if (!head)
 			head = new_node;
 		else
@@ -88,8 +89,6 @@ int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 			// protection et gestion de l'ambiguous si echo > $idiot
 		else
 			splitted = create_single_token_array(*expanded);
-		if (splitted)
-			printf("splitted: %s\n", *splitted);
 		if (((*tmp)->type == FILEN && count_strings(splitted) > 1)
 			|| ((*tmp)->type == FILEN && count_strings(splitted) == 0))
 		{

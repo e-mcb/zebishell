@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:55:23 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/25 23:01:09 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/26 00:25:16 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	ft_parsing(char *input, t_shell *shell)
 	int		i;
 	t_token	*tmp;
 	t_token	*t;
-	t_token *temp;
 
 	i = -1;
 	shell->splitted = ft_split2(input);
@@ -86,18 +85,10 @@ void	ft_parsing(char *input, t_shell *shell)
 	while (tmp)
 	{
 		if (ft_strchr(tmp->value, '\'') || ft_strchr(tmp->value, '"'))
-			tmp->in_quotes = true;
+			tmp->in_quotes_hdoc = true;
 		tmp = tmp->next;
 	}
 	expand(shell);
-	temp = shell->token;
-	while (temp)
-	{
-		printf("token: %s\n", temp->value);
-		if (temp->type == HDOC && temp->in_quotes)
-			printf("ZEBI\n");
-		temp = temp->next;
-	}
 	second_refine_token_type(shell->token, shell);
 	shell->splitted = NULL;
 }

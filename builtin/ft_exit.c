@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 22:31:57 by sradosav          #+#    #+#             */
-/*   Updated: 2025/07/20 18:45:40 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/26 00:38:23 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	handle_exit_error(char *arg, t_shell *shell, int exec_size)
 {
 	if (exec_size == 1)
 		ft_putstr_fd("exit\n", 2);
-	ft_putstr_fd("exit: ", 2);
+	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
 	free_before_exit(shell, NULL, NULL);
@@ -77,10 +77,11 @@ int	ft_exit(char **arr, t_shell *shell, int exec_size)
 			ft_putstr_fd("exit\n", 1);
 		exit(0);
 	}
-	if (arr[2])
-		return (ft_putstr_fd("exit: too many arguments\n", 2), 1);
 	if (!ft_is_number(arr[1]) || is_out_of_range(arr[1]))
 		handle_exit_error(arr[1], shell, exec_size);
+	if (arr[2])
+		return (ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2)
+		, 1);
 	exit_status = ft_atoll(arr[1]) % 256;
 	if (exit_status < 0)
 		exit_status += 256;

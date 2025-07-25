@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:31:47 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/24 00:36:08 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/26 00:06:32 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_token
 	struct s_token	*next;
 	bool			amb_redir;
 	bool			in_quotes;
+	bool			in_quotes_hdoc;
 	bool			to_split;
 }	t_token;
 

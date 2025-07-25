@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:43:06 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/25 20:42:40 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/26 00:06:48 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_token	*create_token(char *str, t_shell *shell)
 	new_token->in_quotes = false;
 	new_token->to_split = true;
 	new_token->amb_redir = false;
+	new_token->in_quotes_hdoc = false;
 	return (new_token);
 }
 

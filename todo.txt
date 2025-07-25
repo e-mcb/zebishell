@@ -186,3 +186,6 @@ logique de creation des fichiers avec amb redir fonctionne aussi
 parcontre
 echo samere >$AMB | ls
 ls ne s'exec pas
+
+________________________________________________________
+cd sans arg (utilise HOME), cd - (utilise OLDPWD), cd ~ (utilise HOME)

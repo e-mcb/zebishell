@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 22:47:29 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/23 23:39:34 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/26 00:07:16 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	handle_heredoc(t_exec *exec, t_token *tmp, t_shell *shell)
 		free(exec->heredoc);
 	tmp->next->value = remove_quotes(tmp->next->value, shell);
 	exec->heredoc = do_heredoc((const t_token *)tmp->next, shell);
-	if (tmp->next->in_quotes == false)
+	if (tmp->next->in_quotes_hdoc == false)
 	{
 		tmp_str = exec->heredoc;
 		exec->heredoc = join_chars(split_and_expand(exec->heredoc, shell),

@@ -27,14 +27,11 @@ void	dummy_exit(t_exec *tmp, t_shell *shell)
 	return ;
 }
 
-void	dummy_cd(t_exec *tmp, t_shell *shell)
+void	dummy_cd(t_exec *tmp, t_shell *shell) //ici a verifier
 {
 	if (!tmp->arr[1] || tmp->arr[2])
 	{
-		if (!tmp->arr[1])
-			ft_putstr_fd("minishell: cd: missing argument\n", 2);
-		else
-			ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		shell->exit_status = 1;
 	}
 	else if (access(tmp->arr[1], F_OK | X_OK) != 0)
