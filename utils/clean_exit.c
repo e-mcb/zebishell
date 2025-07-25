@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:18:02 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/17 17:53:05 by sradosav         ###   ########.fr       */
+/*   Updated: 2025/07/25 21:44:24 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	ft_clean_without_exit(t_shell *shell)
 		free_list(&(shell->token));
 	if (shell->exec)
 		free_exec_list(&(shell->exec));
+	if (shell->pwd)
+		free(shell->pwd);
 	if (shell)
 		free(shell);
 	rl_clear_history();
@@ -69,6 +71,8 @@ void	ft_end_minishell(char *input, t_shell *shell,
 		free_list(&(shell->token));
 	if (shell->exec)
 		free_exec_list(&(shell->exec));
+	if (shell->pwd)
+		free(shell->pwd);
 	if (shell)
 		free(shell);
 	rl_clear_history();

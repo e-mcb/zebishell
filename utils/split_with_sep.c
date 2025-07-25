@@ -6,11 +6,15 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 20:49:00 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/06 21:32:37 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/25 20:59:34 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+	No longer used in the program
+*/
 
 void	init_splitter(t_splitter *splitter)
 {

@@ -170,3 +170,19 @@ exec	 export  includes  main.c	minishell  README.md  tokenizer  valgrind.supp
  backup du 21 juillet fonctionne tjrs
 
  
+ pwd/cd
+ 
+ mkdir a && mkdir a/b
+ cd a/b
+ rm -r ../../a
+ cd ..
+ pwd = /home/mzutter/Desktop/shellsamere/a/b/..
+ cd ..
+ pwd = /home/mzuter/Desktop/shellsamere | fonctionne comme bash
+leak de shell->pwd | corrige
+
+amb redir -> redirs fonctionne a nouveau (create_token n'initialisait pas amb_redir a false)
+logique de creation des fichiers avec amb redir fonctionne aussi
+parcontre
+echo samere >$AMB | ls
+ls ne s'exec pas
