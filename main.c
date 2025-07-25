@@ -53,6 +53,7 @@ static t_shell	*init_shell(t_shell *shell, char **envp)
 	shell->env_arr = NULL;
 	shell->splitted = NULL;
 	shell->token = NULL;
+	shell->pwd = init_pwd(shell);
 	if (!envp[0])
 		env_min(shell);
 	else

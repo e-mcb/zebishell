@@ -114,6 +114,7 @@ typedef struct s_shell
 	t_token		*token;
 	char		**splitted;
 	int			exit_status;
+	char		*pwd;
 	t_exec		*exec;
 }	t_shell;
 
@@ -201,7 +202,7 @@ int			ft_cd(char **str, t_shell *shell);
 int			ft_echo(t_exec **exec, t_shell *shell, int exec_size, int fd_out);
 int			ft_env(char **str, t_shell *shell, int exec_size, int fd_out);
 int			ft_exit(char **arr, t_shell *shell, int exec_size);
-int			ft_pwd(int fd_out, int exec_size);
+int			ft_pwd(int fd_out, t_shell *shell, int exec_size);
 int			ft_unset(char **str, t_shell *shell, int exec_size);
 int			is_out_of_range(const char *nptr);
 
@@ -272,5 +273,7 @@ void		dummy_unset(t_shell *shell);
 void		ft_print_export(t_shell *shell, int fd_out, int exec_size);
 int			ft_exit_argcheck(int c);
 int			ft_is_number(const char *str);
+
+char		*init_pwd(t_shell *shell);
 
 #endif

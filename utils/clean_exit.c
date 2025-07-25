@@ -21,6 +21,8 @@ void	ft_clean_exit(char *input, t_shell *shell,
 		ft_free_str_array(arr_to_free);
 	if (input)
 		free(input);
+	if (shell->pwd)
+		free (shell->pwd);
 	if (shell->env)
 		free_env_list(&(shell->env));
 	if (shell->env_arr)

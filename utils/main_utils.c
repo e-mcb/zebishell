@@ -67,3 +67,22 @@ void	env_min(t_shell *shell)
 	add_env_var(&(shell->env), "OLDPWD", 1, shell);
 	add_env_var(&(shell->env), "SHLVL=0", 1, shell);
 }
+
+char	*init_pwd(t_shell *shell)
+{
+	char	*pwd;
+	char	cwd[1024];
+
+	pwd = NULL;
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	{
+		pwd = ft_strdup(cwd);
+		if (!pwd)
+			ft_clean_exit(NULL, shell, NULL, NULL);
+	}
+	else
+	{
+		perror("shell-init ");
+	}
+	return (pwd);
+}

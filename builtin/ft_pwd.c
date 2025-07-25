@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int	ft_pwd(int fd_out, int exec_size)
+int	ft_pwd(int fd_out, t_shell *shell, int exec_size)
 {
 	char	cwd[1024];
 
@@ -26,7 +26,16 @@ int	ft_pwd(int fd_out, int exec_size)
 	}
 	else
 	{
-		perror("pwd");
-		return (1);
+		if (shell->pwd)
+		{
+			ft_putstr_fd(shell->pwd, fd_out);
+			ft_putstr_fd("\n", fd_out);
+			return (0);
+		}			
+		else
+		{
+			perror("pwd");
+			return (1);
+		}		
 	}
 }
