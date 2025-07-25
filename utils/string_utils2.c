@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 20:04:22 by mzutter           #+#    #+#             */
-/*   Updated: 2025/06/27 18:05:21 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/25 22:45:11 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	count_strings(char **arr)
 	int	count;
 
 	count = 0;
+	if (!arr || arr[0] == 0)
+		return (0);
 	while (arr && arr[count] != NULL)
 		count++;
 	return (count);

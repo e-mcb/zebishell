@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:55:23 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/23 20:48:29 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/25 23:01:09 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ void	ft_parsing(char *input, t_shell *shell)
 			&& t->value[2] == 0)
 		{
 			free(t->value);
-			t->value = ft_strdup(""); //"" remplacé par empty string, chiant parceque ça entre en conflit avec la gestion
-										//d'un faux expand
+			t->value = ft_strdup("");
 		}
 		t = t->next;
 	}
@@ -90,13 +89,15 @@ void	ft_parsing(char *input, t_shell *shell)
 			tmp->in_quotes = true;
 		tmp = tmp->next;
 	}
+	expand(shell);
 	temp = shell->token;
 	while (temp)
 	{
 		printf("token: %s\n", temp->value);
+		if (temp->type == HDOC && temp->in_quotes)
+			printf("ZEBI\n");
 		temp = temp->next;
 	}
-	expand(shell);
 	second_refine_token_type(shell->token, shell);
 	shell->splitted = NULL;
 }

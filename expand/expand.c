@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 20:32:53 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/23 21:36:47 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/25 22:53:41 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,18 @@ int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 	*expanded = join_chars(split_and_expand((*tmp)->value, shell), shell);
 	if (*expanded)
 	{
-		if (((*tmp)->to_split) || (*tmp)->type == FILEN)
+		if (((*tmp)->to_split))
 			splitted = ft_split(*expanded, ' ');
+			// protection et gestion de l'ambiguous si echo > $idiot
 		else
 			splitted = create_single_token_array(*expanded);
+		if (splitted)
+			printf("splitted: %s\n", *splitted);
 		if (((*tmp)->type == FILEN && count_strings(splitted) > 1)
-			|| ((*tmp)->type == FILEN && splitted[0] == 0))
+			|| ((*tmp)->type == FILEN && count_strings(splitted) == 0))
 		{
-			amb_redir(*expanded, shell, tmp);
+			amb_redir((*tmp)->value, shell, tmp);
 			(*tmp)->amb_redir = true;
-			free((*tmp)->value);
-			(*tmp)->value = ft_strdup(*expanded);
 			return (free(*expanded), ft_free_str_array(splitted), 0);
 		}
 		*tmp = insert_new_nodes(shell, *prev, *tmp, splitted);
@@ -102,8 +103,11 @@ int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 	}
 	else
 	{
-		if ((*tmp)->type == FILEN && !(*tmp)->value)
-			amb_redir(*expanded, shell, tmp);
+		if ((*tmp)->type == FILEN && !*expanded)
+		{
+			amb_redir((*tmp)->value, shell, tmp);
+			(*tmp)->amb_redir = true;
+		}
 		free((*tmp)->value);
 		(*tmp)->value = NULL;
 		return (0);
@@ -125,6 +129,7 @@ char *strchr_twice(const char *str, char ch) {
         }
         str++;
     }
+	//a changer pour prendre en compte les nested quotes
 
     return NULL; // return NULL if less than 2 occurrences found
 }

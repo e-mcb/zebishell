@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 22:31:46 by sradosav          #+#    #+#             */
-/*   Updated: 2025/07/23 21:27:38 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/25 22:13:58 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ int	ft_echo(t_exec **exec, t_shell *shell, int exec_size, int fd_out)
 
 	i = 1;
 	newline = 1;
-	if ((*exec)->amb_redir)
-		return(1);
 	while ((*exec)->arr[i] && is_n_flag((*exec)->arr[i]))
 	{
 		newline = 0;

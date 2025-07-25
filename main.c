@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 11:16:07 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/22 00:41:52 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/25 22:29:44 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ static void	end_loop(t_shell *shell)
 static void	minishell_loop(t_shell *shell)
 {
 	char	*input;
+	t_exec	*tmp;
 
 	while (1)
 	{
@@ -104,6 +105,20 @@ static void	minishell_loop(t_shell *shell)
 		if (token_error(shell) == 0)
 		{
 			create_exec(shell);
+			tmp = shell->exec;
+			while (tmp)
+			{
+				if (tmp->amb_redir)
+				{
+					ft_free_str_array(tmp->arr);
+					tmp->arr = malloc(sizeof(char *) * 2);
+					if (!tmp->arr)
+						ft_clean_exit(0, shell, 0, 0);
+					tmp->arr[0] = ft_strdup("false");
+					tmp->arr[1] = NULL;
+				}
+				tmp = tmp->next;
+			}
 			if (g_signal != SIGINT)
 			{
 				env_list_to_arr(shell);

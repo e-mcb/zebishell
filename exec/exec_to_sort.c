@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 22:39:57 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/23 21:24:49 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/25 22:21:50 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,11 +155,6 @@ void	create_exec(t_shell *shell)
 	tmp = shell->token;
 	while (tmp)
 	{
-		if (tmp->type == PIPE)
-		{
-			last->next = new_node(exec);
-			last = last->next;
-		}
 		if (is_redir(tmp) || tmp->type == HDOC)
 		{
 			tmp = handle_redir(last, tmp, shell);
@@ -168,6 +163,11 @@ void	create_exec(t_shell *shell)
 		}
 		if (tmp->type == ARG || tmp->type == CMD)
 			last->arr = add_string_to_array(last->arr, tmp->value, shell);
+		if (tmp->type == PIPE)
+		{
+			last->next = new_node(exec);
+			last = last->next;
+		}
 		tmp = tmp->next;
 	}
 	shell->exec = exec;
