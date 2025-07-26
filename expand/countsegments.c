@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 14:35:14 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/23 20:29:13 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/26 02:07:50 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,37 @@ int	is_case_only_dollar(char *input, t_expand *ex)
 	return (0);
 }
 
-static void	process_single_quote(t_expand *ex)
+static void	process_single_quote(t_expand *ex, char *input)
 {
 	if (ex->i > ex->start)
 		ex->count++;
+	if (input[ex->i + 1] == '"' && !ex->in_single_quote)
+	{
+		ex->i += 2;
+		ex->count++;
+		ex->start = ex->i;
+	}
 	ex->in_single_quote = !ex->in_single_quote;
 	ex->i++;
 	ex->start = ex->i;
 }
 
-static void	process_double_quote(t_expand *ex)
+static void	process_double_quote(t_expand *ex, char *input)
 {
 	if (ex->i > ex->start)
 		ex->count++;
-	ex->in_double_quote = !ex->in_double_quote;
-	ex->i++;
-	ex->start = ex->i;
+	if (input[ex->i + 1] == '"' && !ex->in_double_quote)
+	{
+		ex->i += 2;
+		ex->count++;
+		ex->start = ex->i;
+	}
+	else
+	{
+		ex->in_double_quote = !ex->in_double_quote;
+		ex->i++;
+		ex->start = ex->i;
+	}
 }
 
 static void	process_dollar(char *input, t_expand *ex)
@@ -85,9 +100,9 @@ int	ft_count_segments(char *input)
 	while (input[ex.i])
 	{
 		if (input[ex.i] == '\'' && !ex.in_double_quote)
-			process_single_quote(&ex);
+			process_single_quote(&ex, input);
 		else if (input[ex.i] == '"' && !ex.in_single_quote)
-			process_double_quote(&ex);
+			process_double_quote(&ex, input);
 		else if (input[ex.i] == '$' && !ex.in_single_quote)
 			process_dollar(input, &ex);
 		else

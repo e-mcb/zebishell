@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 11:16:07 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/25 22:29:44 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/26 02:42:06 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,54 @@
 
 int	g_signal = 0;
 
+// static char	*prompt(t_shell *shell)
+// {
+// 	char	*input;
+	
+// 	while (1)
+// 	{
+// 		input = readline("minishell> ");
+// 		if (input == NULL)
+// 		{
+// 			ft_putstr_fd("Goodbye\n", 2);
+// 			ft_end_minishell(NULL, shell, NULL, NULL);
+// 		}
+// 		if (input[0] != '\0')
+// 			add_history(input);
+// 		if (input[0] == 0)
+// 		{
+// 			free(input);
+// 			continue ;
+// 		}
+// 		if (ft_has_invalid_quotes(input))
+// 		{
+// 			ft_putstr_fd(OPEN_QUOTES, 2);
+// 			free(input);
+// 			return (NULL);
+// 		}
+// 		return (input);
+// 	}
+// }
+
 static char	*prompt(t_shell *shell)
 {
 	char	*input;
-
+	char	*pwd;
+	char	*prompt;
+	
+	
 	while (1)
 	{
-		input = readline("minishell> ");
+		pwd = ft_getenv("PWD", shell);
+		if (!pwd)
+			prompt = ("ta soeur> ");
+		else
+		{
+			prompt = ft_strjoin("\001\033[1;35m\002", pwd);
+			prompt = ft_strjoin(prompt, "> ");
+			prompt = ft_strjoin(prompt, "\001\033[0m\002");
+		}
+		input = readline(prompt);
 		if (input == NULL)
 		{
 			ft_putstr_fd("Goodbye\n", 2);

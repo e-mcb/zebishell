@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 14:27:36 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/23 20:48:47 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/26 01:55:00 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	*join_chars(char **str, t_shell *shell)
 	if (str[0] == NULL)
 		return (ft_free_str_array_join(str), NULL);
 	expanded = malloc(sizeof(char) * (array_len(str) + 1));
+	expanded[0] = 0;
 	if (!expanded)
 		ft_clean_exit(NULL, shell, NULL, NULL);
 	i = 0;

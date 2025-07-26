@@ -189,3 +189,21 @@ ls ne s'exec pas
 
 ________________________________________________________
 cd sans arg (utilise HOME), cd - (utilise OLDPWD), cd ~ (utilise HOME)
+
+changer les messages d'erreur pour >>>>> <<<<<, ||| etc
+
+minishell> /
+direct path not found: Permission denied (si commence par /, tenter access sur le path, si access ok, utiliser comme path, sinon, "is a directory)
+minishell> ""
+direct path not found: Permission denied
+/home/mzutter/Desktop/shellsamere> ?$HOME
+direct path not found: No such file or directory
+/home/mzutter/Desktop/shellsamere> ls
+minishell: ls: command not found 
+/home/mzutter/Desktop/shellsamere> echo $?
+127
+/home/mzutter/Desktop/shellsamere> cd tarace 
+minishell: cd: No such file or directory
+/home/mzutter/Desktop/shellsamere> chmod 000 ./minishell
+/home/mzutter/Desktop/shellsamere> ./minishell
+Welcome to minishell

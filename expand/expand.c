@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 20:32:53 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/26 00:25:07 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/26 04:09:55 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_token	*insert_new_nodes(t_shell *shell, t_token *prev,
 		if (!new_node)
 			ft_clean_exit(NULL, shell, NULL, NULL);
 		new_node->type = current->type;
-		new_node->in_quotes = current->in_quotes_hdoc;
+		new_node->in_quotes_hdoc = current->in_quotes_hdoc;
 		if (!head)
 			head = new_node;
 		else
@@ -155,7 +155,10 @@ void	expand(t_shell *shell)
 			tmp = tmp->next;
 			continue ;
 		}
-		skip = process_token(shell, &tmp, &prev, &expanded);
+		if (tmp->type != LIMITER)
+			skip = process_token(shell, &tmp, &prev, &expanded);
+		else 
+			skip = 0;
 		if (skip)
 			continue ;
 		prev = tmp;

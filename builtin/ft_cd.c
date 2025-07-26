@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 22:30:37 by sradosav          #+#    #+#             */
-/*   Updated: 2025/07/26 00:41:28 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/26 03:01:48 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_cd(char **str, t_shell *shell)
 	else
 	{
 		ft_putstr_fd("erreur de détermination du répertoire actuel : getcwd : ne peut accéder aux répertoires parents  ", 2);
-		perror("minishell: cd");
+		perror("minishell: cd"); // minishell: cd: No such file or directory, devrait etre minishell: cd: zebi: no such file in directory
 		temp = ft_strjoin(shell->pwd, "/");
 		if (!temp)
 			ft_clean_exit(NULL, shell, NULL, NULL);
