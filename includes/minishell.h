@@ -284,4 +284,9 @@ int			ft_is_number(const char *str);
 
 char		*init_pwd(t_shell *shell);
 
+//main utils
+char		*generate_prompt(const char *pwd, t_shell *shell);
+void		get_prompt_value(char **prompt, t_shell *shell);
+char		*prompt(t_shell *shell);
+
 #endif

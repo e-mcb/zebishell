@@ -29,6 +29,7 @@ SRCS = main.c \
 	$(UTILS_DIR)/exec_utils2.c \
 	$(UTILS_DIR)/string_utils3.c \
 	$(UTILS_DIR)/main_utils.c \
+	$(UTILS_DIR)/main_utils2.c \
 	$(UTILS_DIR)/free_utils.c \
 	$(UTILS_DIR)/quotes_utils.c \
 	$(UTILS_DIR)/exit_builtin_utils.c \

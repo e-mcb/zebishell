@@ -27,8 +27,9 @@ void	init_splitter(t_splitter *splitter)
 static size_t	next_chunk_end(const char *s,
 	size_t start, bool (*is_sep)(char))
 {
-	size_t i = start;
+	size_t	i;
 
+	i = start;
 	// Include leading separators
 	while (s[i] && is_sep(s[i]))
 		i++;
@@ -94,7 +95,9 @@ static char	**process_chunks_loop(const char *s,
 
 static char	**handle_empty_input(t_shell *shell)
 {
-	char **res = malloc(sizeof(char *) * 2);
+	char	**res;
+
+	res = malloc(sizeof(char *) * 2);
 	if (!res)
 		ft_clean_exit(NULL, shell, NULL, NULL);
 	res[0] = ft_strdup("");
@@ -111,14 +114,11 @@ char	**split_keep_separators(const char *s,
 	t_splitter	splitter;
 
 	if (s[0] == '\0')
-		return handle_empty_input(shell);
-
+		return (handle_empty_input(shell));
 	init_splitter(&splitter);
 	res = malloc(sizeof(char *) * splitter.capacity);
 	if (!res)
 		ft_clean_exit(NULL, shell, NULL, NULL);
-
 	res = process_chunks_loop(s, &splitter, is_sep, res);
 	return (res);
 }
-

@@ -53,6 +53,15 @@ int	is_str_digit(char *str)
 	return (1);
 }
 
+int	ft_isspace(int c)
+{
+	c = (unsigned char)c;
+	if (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r'
+		|| c == ' ')
+		return (1);
+	return (0);
+}
+
 void	ft_parsing(char *input, t_shell *shell)
 {
 	int		i;

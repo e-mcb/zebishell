@@ -14,122 +14,6 @@
 
 int	g_signal = 0;
 
-// static char	*prompt(t_shell *shell)
-// {
-// 	char	*input;
-
-// 	while (1)
-// 	{
-// 		input = readline("minishell> ");
-// 		if (input == NULL)
-// 		{
-// 			ft_putstr_fd("Goodbye\n", 2);
-// 			ft_end_minishell(NULL, shell, NULL, NULL);
-// 		}
-// 		if (input[0] != '\0')
-// 			add_history(input);
-// 		if (input[0] == 0)
-// 		{
-// 			free(input);
-// 			continue ;
-// 		}
-// 		if (ft_has_invalid_quotes(input))
-// 		{
-// 			ft_putstr_fd(OPEN_QUOTES, 2);
-// 			free(input);
-// 			return (NULL);
-// 		}
-// 		return (input);
-// 	}
-// }
-
-// static char	*prompt(t_shell *shell)
-// {
-// 	char	*input;
-// 	char	*pwd;
-// 	char	*prompt;
-
-// 	while (1)
-// 	{
-// 		pwd = ft_getenv("PWD", shell);
-// 		if (!pwd)
-// 			prompt = ("ta soeur> ");
-// 		else
-// 		{
-// 			prompt = ft_strjoin("\001\033[1;35m\002", pwd);
-// 			prompt = ft_strjoin(prompt, "> ");
-// 			prompt = ft_strjoin(prompt, "\001\033[0m\002");
-// 		}
-// 		input = readline(prompt);
-// 		if (input == NULL)
-// 		{
-// 			ft_putstr_fd("Goodbye\n", 2);
-// 			ft_end_minishell(NULL, shell, NULL, NULL);
-// 		}
-// 		if (input[0] != '\0')
-// 			add_history(input);
-// 		if (input[0] == 0)
-// 		{
-// 			free(input);
-// 			continue ;
-// 		}
-// 		if (ft_has_invalid_quotes(input))
-// 		{
-// 			ft_putstr_fd(OPEN_QUOTES, 2);
-// 			free(input);
-// 			return (NULL);
-// 		}
-// 		return (input);
-// 	}
-// }
-static char	*prompt(t_shell *shell)
-{
-	char	*input;
-	char	*pwd;
-	char	*prompt;
-	char	cwd[1024];
-	
-	while (1)
-	{
-		if (getcwd(cwd, sizeof(cwd)) != NULL)
-		{
-			pwd = ft_strdup(cwd);
-			if (!pwd)
-				ft_clean_exit(NULL, shell, NULL, NULL);
-		}
-		else
-			pwd = ft_getenv("PWD", shell);
-		if (!pwd)
-			prompt = ft_strdup("erreur de détermination du répertoire actuel > ");
-		else
-		{
-			prompt = ft_strjoin("\001\033[1;35m\002", pwd);
-			prompt = ft_strjoin(prompt, "> ");
-			prompt = ft_strjoin(prompt, "\001\033[0m\002");
-		}
-		input = readline(prompt);
-		if (input == NULL)
-		{
-			ft_putstr_fd("Goodbye\n", 2);
-			ft_end_minishell(NULL, shell, NULL, NULL);
-		}
-		if (input[0] != '\0')
-			add_history(input);
-		if (input[0] == 0)
-		{
-			free(input);
-			continue ;
-		}
-		if (ft_has_invalid_quotes(input))
-		{
-			ft_putstr_fd(OPEN_QUOTES, 2);
-			free(input);
-			return (NULL);
-		}
-		return (input);
-	}
-}
-
 static t_shell	*init_shell(t_shell *shell, char **envp)
 {
 	char	*shlvl_str;
@@ -173,10 +57,35 @@ static void	end_loop(t_shell *shell)
 	g_signal = 0;
 }
 
+static void	process_executing(t_shell *shell)
+{
+	t_exec	*tmp;
+
+	create_exec(shell);
+	tmp = shell->exec;
+	while (tmp)
+	{
+		if (tmp->amb_redir)
+		{
+			ft_free_str_array(tmp->arr);
+			tmp->arr = malloc(sizeof(char *) * 2);
+			if (!tmp->arr)
+				ft_clean_exit(0, shell, 0, 0);
+			tmp->arr[0] = ft_strdup("false");
+			tmp->arr[1] = NULL;
+		}
+		tmp = tmp->next;
+	}
+	if (g_signal != SIGINT)
+	{
+		env_list_to_arr(shell);
+		exec_loop(shell);
+	}
+}
+
 static void	minishell_loop(t_shell *shell)
 {
 	char	*input;
-	t_exec	*tmp;
 
 	while (1)
 	{
@@ -190,28 +99,7 @@ static void	minishell_loop(t_shell *shell)
 		}
 		ft_parsing(input, shell);
 		if (token_error(shell) == 0)
-		{
-			create_exec(shell);
-			tmp = shell->exec;
-			while (tmp)
-			{
-				if (tmp->amb_redir)
-				{
-					ft_free_str_array(tmp->arr);
-					tmp->arr = malloc(sizeof(char *) * 2);
-					if (!tmp->arr)
-						ft_clean_exit(0, shell, 0, 0);
-					tmp->arr[0] = ft_strdup("false");
-					tmp->arr[1] = NULL;
-				}
-				tmp = tmp->next;
-			}
-			if (g_signal != SIGINT)
-			{
-				env_list_to_arr(shell);
-				exec_loop(shell);
-			}
-		}
+			process_executing(shell);
 		end_loop(shell);
 	}
 }

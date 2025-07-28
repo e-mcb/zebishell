@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-static void	init_ex(t_expand *ex)
+static void	init_ex(t_expand *ex, int size)
 {
 	ex->i = 0;
 	ex->j = 0;
@@ -20,7 +20,8 @@ static void	init_ex(t_expand *ex)
 	ex->start = 0;
 	ex->in_single_quote = false;
 	ex->in_double_quote = false;
-	ex->result = NULL;
+	ex->result = malloc(sizeof(char *) * (size + 1));
+	ex->result[0] = NULL;
 }
 
 static void	process_single_quote(const char *input,
@@ -76,15 +77,10 @@ char	**split_and_expand(char *input, t_shell *shell)
 	t_expand	ex;
 	int			size;
 
-	init_ex(&ex);
 	size = ft_count_segments(input);
-	ex.result = malloc(sizeof(char *) * (size + 1));
-	ex.result[0] = NULL;
+	init_ex(&ex, size);
 	if (size == 0)
-	{
-		ex.result[0] = NULL;
-		return (ex.result);
-	}
+		return (ex.result[0] = NULL, ex.result);
 	if (!ex.result)
 		ft_clean_exit(NULL, shell, NULL, NULL);
 	while (input[ex.i])
@@ -101,6 +97,5 @@ char	**split_and_expand(char *input, t_shell *shell)
 	if (ex.i > ex.start)
 		ex.result[ex.j++] = strndup_custom(input + ex.start,
 				ex.i - ex.start, shell);
-	ex.result[ex.j] = NULL;
-	return (ex.result);
+	return (ex.result[ex.j] = NULL, ex.result);
 }
