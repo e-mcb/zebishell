@@ -33,6 +33,7 @@ SRCS = main.c \
 	$(UTILS_DIR)/quotes_utils.c \
 	$(UTILS_DIR)/exit_builtin_utils.c \
 	$(UTILS_DIR)/debug_utils.c \
+	$(UTILS_DIR)/export_utils.c \
 	$(TOKENIZER_DIR)/tokenizer.c \
 	$(TOKENIZER_DIR)/split2.c \
 	$(TOKENIZER_DIR)/refine_token.c \

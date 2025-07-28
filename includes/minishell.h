@@ -177,6 +177,12 @@ void		free_env_list(t_envvar **head);
 void		env_list_to_arr(t_shell *shell);
 int			envvar_match(char *env_var, char *var, size_t len, char *full_var);
 
+//export utils
+void		ft_write_export(char *str, int fd_out);
+int			add_env_var_without_value(t_envvar **head,
+				char *str, int exported, t_shell *shell);
+void		update_or_add_without_value(char *var, t_shell *shell);
+
 //parsing utils
 int			ft_has_invalid_quotes(const char *str);
 int			string_error(char *input);
@@ -206,6 +212,7 @@ int			ft_exit(char **arr, t_shell *shell, int exec_size);
 int			ft_pwd(int fd_out, t_shell *shell, int exec_size);
 int			ft_unset(char **str, t_shell *shell, int exec_size);
 int			is_out_of_range(const char *nptr);
+void		export_existing_var(char *var, t_shell *shell);
 
 //clean exit
 void		ft_free_str_array(char **arr);

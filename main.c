@@ -17,7 +17,7 @@ int	g_signal = 0;
 // static char	*prompt(t_shell *shell)
 // {
 // 	char	*input;
-	
+
 // 	while (1)
 // 	{
 // 		input = readline("minishell> ");
@@ -43,18 +43,64 @@ int	g_signal = 0;
 // 	}
 // }
 
+// static char	*prompt(t_shell *shell)
+// {
+// 	char	*input;
+// 	char	*pwd;
+// 	char	*prompt;
+
+// 	while (1)
+// 	{
+// 		pwd = ft_getenv("PWD", shell);
+// 		if (!pwd)
+// 			prompt = ("ta soeur> ");
+// 		else
+// 		{
+// 			prompt = ft_strjoin("\001\033[1;35m\002", pwd);
+// 			prompt = ft_strjoin(prompt, "> ");
+// 			prompt = ft_strjoin(prompt, "\001\033[0m\002");
+// 		}
+// 		input = readline(prompt);
+// 		if (input == NULL)
+// 		{
+// 			ft_putstr_fd("Goodbye\n", 2);
+// 			ft_end_minishell(NULL, shell, NULL, NULL);
+// 		}
+// 		if (input[0] != '\0')
+// 			add_history(input);
+// 		if (input[0] == 0)
+// 		{
+// 			free(input);
+// 			continue ;
+// 		}
+// 		if (ft_has_invalid_quotes(input))
+// 		{
+// 			ft_putstr_fd(OPEN_QUOTES, 2);
+// 			free(input);
+// 			return (NULL);
+// 		}
+// 		return (input);
+// 	}
+// }
 static char	*prompt(t_shell *shell)
 {
 	char	*input;
 	char	*pwd;
 	char	*prompt;
-	
+	char	cwd[1024];
 	
 	while (1)
 	{
-		pwd = ft_getenv("PWD", shell);
+		if (getcwd(cwd, sizeof(cwd)) != NULL)
+		{
+			pwd = ft_strdup(cwd);
+			if (!pwd)
+				ft_clean_exit(NULL, shell, NULL, NULL);
+		}
+		else
+			pwd = ft_getenv("PWD", shell);
 		if (!pwd)
-			prompt = ("ta soeur> ");
+			prompt = ft_strdup("erreur de détermination du répertoire actuel > ");
 		else
 		{
 			prompt = ft_strjoin("\001\033[1;35m\002", pwd);

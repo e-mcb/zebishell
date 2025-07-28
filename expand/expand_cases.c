@@ -30,28 +30,21 @@ char	*ft_strtrim_whitespace(char const *s1)
 
 	if (!s1)
 		return (NULL);
-
 	start = 0;
 	while (s1[start] && ft_isspace((unsigned char)s1[start]))
 		start++;
-
 	end = ft_strlen(s1);
 	while (end > start && ft_isspace((unsigned char)s1[end - 1]))
 		end--;
-
 	str = (char *)malloc(sizeof(*s1) * (end - start + 1));
 	if (!str)
 		return (NULL);
-
 	i = 0;
 	while (start < end)
 		str[i++] = s1[start++];
 	str[i] = '\0';
-
 	return (str);
 }
-
-
 
 static char	*get_env_value(char *name, t_shell *shell, t_expand *ex)
 {

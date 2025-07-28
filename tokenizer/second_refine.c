@@ -16,8 +16,8 @@ void	second_refine_token_type(t_token *token, t_shell *shell)
 {
 	t_token	*t;
 	bool	has_cmd;
-	(void) shell;
 
+	(void) shell;
 	has_cmd = false;
 	t = token;
 	while (t)

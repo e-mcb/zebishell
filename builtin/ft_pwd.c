@@ -31,11 +31,11 @@ int	ft_pwd(int fd_out, t_shell *shell, int exec_size)
 			ft_putstr_fd(shell->pwd, fd_out);
 			ft_putstr_fd("\n", fd_out);
 			return (0);
-		}			
+		}
 		else
 		{
 			perror("pwd");
 			return (1);
-		}		
+		}
 	}
 }

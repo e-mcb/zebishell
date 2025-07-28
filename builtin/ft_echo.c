@@ -76,13 +76,13 @@ int	ft_echo(t_exec **exec, t_shell *shell, int exec_size, int fd_out)
 	{
 		if (ft_putstr_fd_echo((*exec)->arr[i], exec_size, fd_out) == 1)
 			return (1);
-		if ((*exec)->arr[i + 1]
-			&& ft_strlen((*exec)->arr[i]) > 0 && (*exec)->arr[i][ft_strlen((*exec)->arr[i]) - 1] != ' ' && (*exec)->arr[i][0] != 0)
+		if ((*exec)->arr[i + 1] && ft_strlen((*exec)->arr[i]) > 0
+			&& (*exec)->arr[i][ft_strlen((*exec)->arr[i]) - 1] != ' '
+			&& (*exec)->arr[i][0] != 0)
 			ft_putstr_fd(" ", fd_out);
 		i++;
 	}
 	if (newline)
 		ft_putstr_fd("\n", fd_out);
-	shell->exit_status = 0;
-	return (0);
+	return (shell->exit_status = 0, 0);
 }

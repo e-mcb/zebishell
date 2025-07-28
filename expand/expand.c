@@ -114,7 +114,8 @@ int	process_token(t_shell *shell, t_token **tmp, t_token **prev,
 	return (cleanup_token(expanded, &splitted), 1);
 }
 
-char *strchr_twice(const char *str, char ch) {
+char	*strchr_twice(const char *str, char ch)
+{
     int count = 0;
     const char *first = NULL;
 

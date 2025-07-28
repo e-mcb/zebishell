@@ -48,7 +48,7 @@ char	*join_chars(char **str, t_shell *shell)
 	int		j;
 	int		k;
 	char	*expanded;
-	
+
 	if (!str)
 		return (ft_free_str_array_join(str), NULL);
 	if (str[0] == NULL)

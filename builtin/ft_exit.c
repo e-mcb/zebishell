@@ -81,7 +81,7 @@ int	ft_exit(char **arr, t_shell *shell, int exec_size)
 		handle_exit_error(arr[1], shell, exec_size);
 	if (arr[2])
 		return (ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2)
-		, 1);
+			, 1);
 	exit_status = ft_atoll(arr[1]) % 256;
 	if (exit_status < 0)
 		exit_status += 256;
