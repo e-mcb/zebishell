@@ -13,7 +13,7 @@
 #include "../includes/minishell.h"
 
 /*
-	No longer used in the program
+	Deprecated function to split a string while keeping the separators
 */
 
 void	init_splitter(t_splitter *splitter)
@@ -30,10 +30,8 @@ static size_t	next_chunk_end(const char *s,
 	size_t	i;
 
 	i = start;
-	// Include leading separators
 	while (s[i] && is_sep(s[i]))
 		i++;
-	// Include word (non-separators)
 	while (s[i] && !is_sep(s[i]))
 		i++;
 	return (i);
@@ -74,10 +72,8 @@ static char	**process_chunks_loop(const char *s,
 	while (splitter->i < len)
 	{
 		splitter->i = next_chunk_end(s, splitter->start, is_sep);
-		// If we're at the end, we may want to include trailing spaces
 		if (splitter->i >= len)
 		{
-			// Include any remaining spaces at the end
 			while (s[splitter->i] && is_sep(s[splitter->i]))
 				splitter->i++;
 		}

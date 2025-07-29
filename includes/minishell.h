@@ -202,6 +202,7 @@ void		cleanup_token(char **expanded, char ***splitted);
 t_token		*new_token_append(t_token *head, char *str,
 				t_token_type type, t_shell *shell);
 t_envvar	*create_env_var(char *str, int exported, t_shell *shell);
+t_exec		*new_node(t_exec *head);
 
 //builtins
 int			ft_export(char **str, t_shell *shell, int exec_size, int fd_out);
@@ -240,6 +241,11 @@ int			is_case_only_dollar(char *input, t_expand *ex);
 char		**split_keep_separators(const char *s, bool (*is_sep)(char),
 				t_shell *shell);
 void		init_splitter(t_splitter *splitter);
+
+//exit status
+void		wait_for_children_to_exit(t_shell *shell, pid_t last_pid);
+void		wait_for_remaining_children(void);
+void		wait_for_heredoc_to_exit(pid_t pid, t_shell *shell);
 
 //exec
 char		*pathfinder(t_shell *shell, t_exec *current);

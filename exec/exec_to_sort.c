@@ -12,41 +12,6 @@
 
 #include "../includes/minishell.h"
 
-t_exec	*init_exec(void)
-{
-	t_exec	*exec;
-
-	exec = malloc(sizeof(t_exec));
-	if (!exec)
-		return (NULL);
-	exec->arr = NULL;
-	exec->fd_in = 0;
-	exec->fd_out = 1;
-	exec->next = NULL;
-	exec->heredoc = NULL;
-	exec->heredoc_bool = false;
-	exec->pid = -1;
-	exec->amb_redir = false;
-	return (exec);
-}
-
-t_exec	*new_node(t_exec *head)
-{
-	t_exec	*new;
-	t_exec	*last;
-
-	new = init_exec();
-	if (!new)
-		return (NULL);
-	if (!head)
-		return (new);
-	last = head;
-	while (last->next)
-		last = last->next;
-	last->next = new;
-	return (new);
-}
-
 t_token	*skip_to_pipe(t_token *token)
 {
 	char	*line;
@@ -74,46 +39,10 @@ t_token	*skip_to_pipe(t_token *token)
 	return (token);
 }
 
-// char	**add_string_to_array(char **array, char *str, t_shell *shell)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	**new_array;
-
-// 	i = 0;
-// 	j = 0;
-
-// 	while (array && array[i])
-// 		i++;
-// 	new_array = malloc((i + 2) * sizeof(char *));
-// 	if (!new_array)
-// 		ft_clean_exit(NULL, shell, NULL, new_array);
-// 	while (j < i)
-// 	{
-// 		new_array[j] = ft_strdup(array[j]);
-// 		free(array[j]);
-// 		j++;
-// 	}
-// 	if (str)
-// 	{
-// 		new_array[i] = ft_strdup(str);
-// 		if (!new_array[i])
-// 			ft_clean_exit(NULL, shell, NULL, new_array);
-// 		new_array[i + 1] = NULL;
-// 	}
-// 	else
-// 	{
-// 		new_array[i] = NULL;
-// 		return(new_array);
-// 	}
-// 	free(array);
-// 	return (new_array);
-// }
-
-char	**add_string_to_array(char **array, char *str, t_shell *shell)
+char	**duplicate_array_with_extra_space(char **array, t_shell *shell)
 {
 	int		i;
-	int		j;
+	int		j ;
 	char	**new_array;
 
 	i = 0;
@@ -129,6 +58,22 @@ char	**add_string_to_array(char **array, char *str, t_shell *shell)
 		free(array[j]);
 		j++;
 	}
+	new_array[i] = NULL;
+	new_array[i + 1] = NULL;
+	if (array)
+		free(array);
+	return (new_array);
+}
+
+char	**add_string_to_array(char **array, char *str, t_shell *shell)
+{
+	char	**new_array;
+	int		i;
+
+	i = 0;
+	new_array = duplicate_array_with_extra_space(array, shell);
+	while (new_array[i])
+		i++;
 	if (str)
 	{
 		new_array[i] = ft_strdup(str);
@@ -137,9 +82,6 @@ char	**add_string_to_array(char **array, char *str, t_shell *shell)
 	}
 	else
 		new_array[i] = NULL;
-	new_array[i + 1] = NULL;
-	if (array)
-		free(array);
 	return (new_array);
 }
 
@@ -149,7 +91,6 @@ void	create_exec(t_shell *shell)
 	t_token	*tmp;
 	t_exec	*last;
 
-	tmp = shell->token;
 	exec = new_node(NULL);
 	last = exec;
 	tmp = shell->token;

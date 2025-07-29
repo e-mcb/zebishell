@@ -1,9 +1,7 @@
-# Compiler and flags
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iheaders -Ilibft -g
 LDFLAGS = -lreadline
 
-# Directories
 UTILS_DIR = utils
 TOKENIZER_DIR = tokenizer
 EXPAND_DIR = expand
@@ -13,7 +11,6 @@ OBJ_DIR = objects
 EXEC_DIR = exec
 INPUT_CHECK_DIR = input_check
 
-# Source files
 SRCS = main.c \
 	$(UTILS_DIR)/bool_utils.c \
 	$(UTILS_DIR)/clean_exit.c \
@@ -35,6 +32,7 @@ SRCS = main.c \
 	$(UTILS_DIR)/exit_builtin_utils.c \
 	$(UTILS_DIR)/debug_utils.c \
 	$(UTILS_DIR)/export_utils.c \
+	$(UTILS_DIR)/exec_list_utils.c \
 	$(TOKENIZER_DIR)/tokenizer.c \
 	$(TOKENIZER_DIR)/split2.c \
 	$(TOKENIZER_DIR)/refine_token.c \
@@ -59,45 +57,38 @@ SRCS = main.c \
 	$(EXEC_DIR)/heredocs.c \
 	$(EXEC_DIR)/executing.c \
 	$(EXEC_DIR)/exec_loop_utils.c \
+	$(EXEC_DIR)/exit_status.c \
 	$(INPUT_CHECK_DIR)/check_input_str.c \
 	$(INPUT_CHECK_DIR)/check_input_token.c \
 
-# Object files
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-# Executable names
 NAME = minishell
 TMP_NAME = /tmp/$(NAME)
 
-# Default target: build both executables
 all: $(NAME) $(TMP_NAME)
 
-# Build main executable
 $(NAME): $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)/libft.a -o $(NAME) $(LDFLAGS)
 
-# Copy to /tmp
+# copie du binaire dans /tmp
 $(TMP_NAME): $(NAME)
 	@echo "Copying $(NAME) to /tmp"
 	cp $(NAME) $(TMP_NAME)
 
-# Compile source files to object files
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Clean object files
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
 	rm -rf $(OBJ_DIR)
 
-# Full clean (includes binaries)
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME) $(TMP_NAME)
 
-# Rebuild everything
 re: fclean all
 
 .PHONY: all clean fclean re
