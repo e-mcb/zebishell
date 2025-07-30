@@ -37,3 +37,18 @@ char	*remove_quotes(char *input, t_shell *shell)
 	free (input);
 	return (output);
 }
+
+void	ft_free_str_array_join(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (!arr)
+		return ;
+	while (arr[i] != NULL)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}

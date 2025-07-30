@@ -158,6 +158,7 @@ int			ft_strcmp(char *s1, char *s2);
 char		*ft_strndup(char *s, size_t n);
 char		*remove_quotes(char *input, t_shell *shell);
 void		remove_nested_quotes(char *str);
+void		ft_free_str_array_join(char **arr);
 
 //misc utils
 int			is_valid_identifier(char *str);
@@ -236,6 +237,10 @@ void		case_question_mark(t_expand *ex, t_shell *shell);
 void		case_env_var(t_expand *ex, char *input, t_shell *shell);
 t_token		*skip_to_pipe(t_token *token);
 int			is_case_only_dollar(char *input, t_expand *ex);
+t_token		*insert_new_nodes(t_shell *shell, t_token *prev,
+				t_token *current, char **splitted);
+int			process_token(t_shell *shell, t_token **tmp,
+				t_token **prev, char **expanded);
 
 //tmp
 char		**split_keep_separators(const char *s, bool (*is_sep)(char),

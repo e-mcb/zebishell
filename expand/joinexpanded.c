@@ -12,21 +12,6 @@
 
 #include "../includes/minishell.h"
 
-static void	ft_free_str_array_join(char **arr)
-{
-	int	i;
-
-	i = 0;
-	if (!arr)
-		return ;
-	while (arr[i] != NULL)
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
-
 int	array_len(char **str)
 {
 	int	i;
@@ -42,21 +27,34 @@ int	array_len(char **str)
 	return (len);
 }
 
-char	*join_chars(char **str, t_shell *shell)
+int	should_return_null(char **str)
 {
-	int		i;
-	int		j;
-	int		k;
-	char	*expanded;
-
 	if (!str)
-		return (ft_free_str_array_join(str), NULL);
+		return (1);
 	if (str[0] == NULL)
-		return (ft_free_str_array_join(str), NULL);
-	expanded = malloc(sizeof(char) * (array_len(str) + 1));
-	expanded[0] = 0;
+		return (1);
+	return (0);
+}
+
+char	*alloc_expanded_string(char **str, t_shell *shell)
+{
+	char	*expanded;
+	int		len;
+
+	len = array_len(str) + 1;
+	expanded = malloc(sizeof(char) * len);
 	if (!expanded)
 		ft_clean_exit(NULL, shell, NULL, NULL);
+	expanded[0] = 0;
+	return (expanded);
+}
+
+void	copy_chars(char **str, char *expanded)
+{
+	int	i;
+	int	j;
+	int	k;
+
 	i = 0;
 	k = 0;
 	while (str[i])
@@ -70,9 +68,20 @@ char	*join_chars(char **str, t_shell *shell)
 		}
 		i++;
 	}
-	if (i == 0 && j == 0)
-		expanded = NULL;
-	else
-		expanded[k] = '\0';
-	return (ft_free_str_array_join(str), expanded);
+	expanded[k] = '\0';
+}
+
+char	*join_chars(char **str, t_shell *shell)
+{
+	char	*expanded;
+
+	if (should_return_null(str))
+	{
+		ft_free_str_array_join(str);
+		return (NULL);
+	}
+	expanded = alloc_expanded_string(str, shell);
+	copy_chars(str, expanded);
+	ft_free_str_array_join(str);
+	return (expanded);
 }
