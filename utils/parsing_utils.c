@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 21:55:23 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/26 00:25:16 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/30 21:45:24 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,33 +62,50 @@ int	ft_isspace(int c)
 	return (0);
 }
 
-void	ft_parsing(char *input, t_shell *shell)
-{
-	int		i;
-	t_token	*tmp;
-	t_token	*t;
+// void	ft_parsing(char *input, t_shell *shell)
+// {
+// 	int		i;
+// 	t_token	*tmp;
+// 	t_token	*t;
 
-	i = -1;
-	shell->splitted = ft_split2(input);
-	if (shell->splitted == NULL)
-		ft_clean_exit(input, shell, NULL, NULL);
-	free (input);
-	while (shell->splitted[++i])
-		tokenizer(shell, i);
-	t = shell->token;
-	while (t)
-	{
-		if (((t->value[0] == '"' && t->value[1] == '"')
-				|| (t->value[0] == '\'' && t->value[1] == '\''))
-			&& t->value[2] == 0)
-		{
-			free(t->value);
-			t->value = ft_strdup("");
-		}
-		t = t->next;
-	}
-	if (shell->splitted != NULL)
-		ft_free_str_array(shell->splitted);
+// 	i = -1;
+// 	shell->splitted = ft_split2(input);
+// 	if (shell->splitted == NULL)
+// 		ft_clean_exit(input, shell, NULL, NULL);
+// 	free (input);
+// 	while (shell->splitted[++i])
+// 		tokenizer(shell, i);
+// 	t = shell->token;
+// 	while (t)
+// 	{
+// 		if (((t->value[0] == '"' && t->value[1] == '"')
+// 				|| (t->value[0] == '\'' && t->value[1] == '\''))
+// 			&& t->value[2] == 0)
+// 		{
+// 			free(t->value);
+// 			t->value = ft_strdup("");
+// 		}
+// 		t = t->next;
+// 	}
+// 	if (shell->splitted != NULL)
+// 		ft_free_str_array(shell->splitted);
+// 	refine_token_type(shell->token);
+// 	tmp = shell->token;
+// 	while (tmp)
+// 	{
+// 		if (ft_strchr(tmp->value, '\'') || ft_strchr(tmp->value, '"'))
+// 			tmp->in_quotes_hdoc = true;
+// 		tmp = tmp->next;
+// 	}
+// 	expand(shell);
+// 	second_refine_token_type(shell->token, shell);
+// 	shell->splitted = NULL;
+// }
+
+void	call_expand_and_refine(t_shell *shell)
+{
+	t_token	*tmp;
+	tmp = shell->token;
 	refine_token_type(shell->token);
 	tmp = shell->token;
 	while (tmp)
@@ -100,4 +117,33 @@ void	ft_parsing(char *input, t_shell *shell)
 	expand(shell);
 	second_refine_token_type(shell->token, shell);
 	shell->splitted = NULL;
+}
+
+void	ft_parsing(char *input, t_shell *shell)
+{
+	int		i;
+	t_token	*tmp;
+
+	i = -1;
+	tmp = shell->token;
+	shell->splitted = ft_split2(input);
+	if (shell->splitted == NULL)
+		ft_clean_exit(input, shell, NULL, NULL);
+	free (input);
+	while (shell->splitted[++i])
+		tokenizer(shell, i);
+	while (tmp)
+	{
+		if (((tmp->value[0] == '"' && tmp->value[1] == '"')
+				|| (tmp->value[0] == '\'' && tmp->value[1] == '\''))
+			&& tmp->value[2] == 0)
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup("");
+		}
+		tmp = tmp->next;
+	}
+	if (shell->splitted != NULL)
+		ft_free_str_array(shell->splitted);
+	call_expand_and_refine(shell);
 }

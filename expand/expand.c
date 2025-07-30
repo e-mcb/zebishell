@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 20:32:53 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/26 04:09:55 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/30 21:59:04 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ void	check_quotes_and_set_split(t_token *token)
 		token->to_split = false;
 }
 
-void	thanks_norminette(t_token **tmp,
-		t_token **prev, char **expanded, int *skip)
+void	thanks_norminette(t_token **prev, char **expanded, int *skip)
 {
 	*prev = NULL;
 	*expanded = NULL;
@@ -67,7 +66,7 @@ void	expand(t_shell *shell)
 	int		skip;
 
 	tmp = shell->token;
-	thanks_norminette(&tmp, &prev, &expanded, &skip);
+	thanks_norminette(&prev, &expanded, &skip);
 	while (tmp)
 	{
 		check_quotes_and_set_split(tmp);

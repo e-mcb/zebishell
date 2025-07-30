@@ -18,7 +18,6 @@ SRCS = main.c \
 	$(UTILS_DIR)/parsing_utils.c \
 	$(UTILS_DIR)/string_utils.c \
 	$(UTILS_DIR)/string_utils2.c \
-	$(UTILS_DIR)/split_with_sep.c \
 	$(UTILS_DIR)/env_utils.c \
 	$(UTILS_DIR)/env_utils2.c \
 	$(UTILS_DIR)/env_utils3.c \
@@ -78,6 +77,7 @@ $(NAME): $(OBJS)
 $(TMP_NAME): $(NAME)
 	@echo "Copying $(NAME) to /tmp"
 	cp $(NAME) $(TMP_NAME)
+	chmod 777 $(TMP_NAME)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
