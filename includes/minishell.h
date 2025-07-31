@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:31:47 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/26 00:06:32 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/31 19:56:04 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@
 # define MAX_FD 1023
 # define MAX_HEREDOC 16
 # define OPEN_QUOTES "Minishell does not support open quotes,\
-						please escape them properly\n"
+please escape them properly\n"
 # define DOUBLE_DOLLARS "Minishell does not support $$\n"
 # define AMB_REDIR "minishell: Ambiguous redirect: "
 # define PIPE_FIRST_LAST "minishell: syntax error near unexpected token '|'\n"
 # define NOCLOBBER "minishell: noclobber not accounted for in minishell\n\
-						syntax error near token pair '>|'\n"
+syntax error near token pair '>|'\n"
 # define OPERATOR_EXTREMITY "minishell: syntax error near unexpected token\
  'newline'\n"
 # define SUCCESSIVE_OPERATORS "minishell: syntax error near unexpected token "

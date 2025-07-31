@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 21:37:04 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/30 21:37:05 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/31 22:11:38 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,45 @@ void	amb_redir(char *str, t_shell *shell, t_token **tmp)
 	(*tmp)->amb_redir = true;
 }
 
-int	should_trigger_amb_redir(t_token *token, char **split)
+// int	should_trigger_amb_redir(t_token *token, char **split)
+// {
+// 	int	len;
+
+// 	if (token->type == FILEN && !split)
+// 		return (1);
+// 	len = count_strings(split);
+// 	if ((token->type == FILEN && (len > 1 || len == 0)))
+// 		return (1);
+// 	return (0);
+// }
+
+// void	handle_ambiguous_redir(t_shell *shell, t_token **token,
+// 		char **expanded, char **split)
+// {
+// 	amb_redir((*token)->value, shell, token);
+// 	(*token)->amb_redir = true;
+// 	free(*expanded);
+// 	ft_free_str_array(split);
+// }
+
+int	handle_ambiguous_redir(t_shell *shell, t_token **token,
+		char **expanded, char **split)
 {
 	int	len;
 
-	len = count_strings(split);
-	if (token->type == FILEN && (len > 1 || len == 0))
-		return (1);
-	return (0);
-}
-
-void	handle_ambiguous_redir(t_shell *shell, t_token **token,
-		char **expanded, char **split)
-{
-	amb_redir((*token)->value, shell, token);
-	(*token)->amb_redir = true;
-	free(*expanded);
-	ft_free_str_array(split);
+	if (split)
+		len = count_strings(split);
+	else
+		len = 0;
+	if ((*token)->type == FILEN && (!split || (len != 1)))
+	{
+		amb_redir((*token)->value, shell, token);
+		(*token)->amb_redir = true;
+		free(*expanded);
+		ft_free_str_array(split);
+		return (0);
+	}
+	return (1);
 }
 
 char	**create_single_token_array(char *str)
@@ -64,13 +86,14 @@ int	process_token(t_shell *shell, t_token **tmp,
 	splitted = NULL;
 	*expanded = join_chars(split_and_expand((*tmp)->value, shell), shell);
 	if (!*expanded)
-		return (free((*tmp)->value), (*tmp)->value = NULL, 0);
+		return (handle_ambiguous_redir(shell, tmp,
+				expanded, splitted), (*tmp)->value = NULL, 0);
 	if ((*tmp)->to_split)
 		splitted = ft_split(*expanded, ' ');
 	else
 		splitted = create_single_token_array(*expanded);
-	if (should_trigger_amb_redir(*tmp, splitted))
-		return (handle_ambiguous_redir(shell, tmp, expanded, splitted), 0);
+	if (!handle_ambiguous_redir(shell, tmp, expanded, splitted))
+		return (0);
 	*tmp = insert_new_nodes(shell, *prev, *tmp, splitted);
 	*prev = *tmp;
 	*tmp = (*tmp)->next;

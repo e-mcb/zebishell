@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 22:31:57 by sradosav          #+#    #+#             */
-/*   Updated: 2025/07/26 00:38:23 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/31 19:43:46 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	free_before_exit(t_shell *shell, void *ptr_a, void *ptr_b)
 			free_list(&(shell->token));
 		if (shell->exec)
 			free_exec_list(&(shell->exec));
+		if (shell->pwd)
+			free(shell->pwd);
 		free(shell);
 	}
 }
