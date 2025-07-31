@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <unistd.h>
 
 static void	free_possible_paths(char **possible_paths)
 {
@@ -55,8 +56,9 @@ char	*pathfinder(t_shell *shell, t_exec *current)
 		final_path = construct_final_path(poss_paths[i], current->arr[0]);
 		if (final_path != NULL && access (final_path, F_OK) == 0)
 		{
-			free_possible_paths(poss_paths);
-			return (final_path);
+			if (access(final_path, X_OK) == 0)
+				return (free_possible_paths(poss_paths)
+					, final_path);
 		}
 		free(final_path);
 		i++;

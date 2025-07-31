@@ -18,25 +18,23 @@ void	execute_command(t_shell *shell, t_exec *tmp)
 	char	*path;
 
 	i = 2;
-	if (ft_strcmp(tmp->arr[0], "minishell") == 0
-		|| ft_strcmp(tmp->arr[0], "./minishell") == 0)
+	if (ft_strcmp(tmp->arr[0], "minishell") == 0)
 		path = (ft_strdup("/tmp/minishell"));
-	else if (ft_strchr(tmp->arr[0], '/'))
-		path = tmp->arr[0];
+	else if (tmp->arr[0][0] == '/' || tmp->arr[0][0] == '.')
+	{
+		if (access(tmp->arr[0], X_OK) == 0)
+			path = tmp->arr[0];
+		else
+			print_permission_denied(tmp->arr[0]);
+	}
 	else
 		path = pathfinder(shell, tmp);
 	if (path == NULL)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(tmp->arr[0], 2);
-		ft_putstr_fd(": command not found ", 2);
-		ft_putstr_fd("\n", 2);
-		exit(127);
-	}
+		print_command_not_found(tmp->arr[0]);
 	while (++i < 1023)
 		close(i);
 	execve(path, tmp->arr, shell->env_arr);
-	perror("direct path not found");
+	perror("command not found ");
 	exit(127);
 }
 

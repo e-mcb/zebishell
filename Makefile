@@ -32,6 +32,7 @@ SRCS = main.c \
 	$(UTILS_DIR)/debug_utils.c \
 	$(UTILS_DIR)/export_utils.c \
 	$(UTILS_DIR)/exec_list_utils.c \
+	$(UTILS_DIR)/exec_error_msg.c \
 	$(TOKENIZER_DIR)/tokenizer.c \
 	$(TOKENIZER_DIR)/split2.c \
 	$(TOKENIZER_DIR)/refine_token.c \

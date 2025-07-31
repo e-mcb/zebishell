@@ -12,6 +12,18 @@
 
 #include "../includes/minishell.h"
 
+static void	print_msg(t_token *token)
+{
+	if (token->type == IN)
+		ft_putstr_fd("'<'\n", 2);
+	else if (token->type == OUT)
+		ft_putstr_fd("'>'\n", 2);
+	else if (token->type == APPEND)
+		ft_putstr_fd("'>>'\n", 2);
+	else if (token->type == HDOC)
+		ft_putstr_fd("'<<'\n", 2);
+}
+
 int	token_error(t_shell *shell)
 {
 	t_token	*tmp;
@@ -26,7 +38,11 @@ int	token_error(t_shell *shell)
 			return (ft_putstr_fd("syntax error near token '|'", 2), 1);
 		if ((is_redir(tmp) || tmp->type == HDOC) && tmp->next
 			&& (is_redir(tmp->next) || tmp->next->type == HDOC))
-			return (ft_putstr_fd(SUCCESSIVE_OPERATORS, 2), 1);
+		{
+			ft_putstr_fd(SUCCESSIVE_OPERATORS, 2);
+			print_msg(tmp->next);
+			return (1);
+		}
 		if (tmp->type == PIPE && tmp->next->type == PIPE)
 			return (ft_putstr_fd(SUCCESSIVE_PIPES, 2), 1);
 		tmp = tmp->next;

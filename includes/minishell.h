@@ -35,11 +35,12 @@
 						please escape them properly\n"
 # define DOUBLE_DOLLARS "Minishell does not support $$\n"
 # define AMB_REDIR "minishell: Ambiguous redirect: "
-# define PIPE_FIRST_LAST "minishell: syntax error near '|'\n"
+# define PIPE_FIRST_LAST "minishell: syntax error near unexpected token '|'\n"
 # define NOCLOBBER "minishell: noclobber not accounted for in minishell\n\
 						syntax error near token pair '>|'\n"
-# define OPERATOR_EXTREMITY "minishell: Operator detected at the end of input\n"
-# define SUCCESSIVE_OPERATORS "minishell: Successive operators detected \n"
+# define OPERATOR_EXTREMITY "minishell: syntax error near unexpected token\
+ 'newline'\n"
+# define SUCCESSIVE_OPERATORS "minishell: syntax error near unexpected token "
 # define PATH "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:\
 /sbin:/bin"
 # define EOF_HEREDOC "minishell: warning:\
@@ -273,6 +274,8 @@ int			should_run_single_builtin(t_shell *shell, t_exec *cmd);
 void		handle_in_child(t_shell *shell, t_exec *cmd, int *pipe_fd);
 pid_t		execute_all_commands(t_shell *shell, t_exec *tmp, int *pipe_fd,
 				int prev_fd_in);
+void		print_permission_denied(char *cmd);
+void		print_command_not_found(char *cmd);
 
 void		wait_for_children_to_exit(t_shell *shell, pid_t last_pid);
 void		wait_for_heredoc_to_exit(pid_t pid, t_shell *shell);
