@@ -88,8 +88,13 @@ int	process_token(t_shell *shell, t_token **tmp,
 	splitted = NULL;
 	*expanded = join_chars(split_and_expand((*tmp)->value, shell), shell);
 	if (!*expanded)
-		return (handle_ambiguous_redir(shell, tmp,
-				expanded, splitted), (*tmp)->value = NULL, 0);
+	{
+		if (!handle_ambiguous_redir(shell, tmp, expanded, splitted))
+			(*tmp)->value = NULL;
+		return (0);
+	}
+		//return (handle_ambiguous_redir(shell, tmp,
+		//		expanded, splitted), (*tmp)->value = NULL, 0);
 	if ((*tmp)->to_split)
 		splitted = ft_split(*expanded, ' ');
 	else
