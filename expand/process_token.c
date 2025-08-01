@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 21:37:04 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/31 22:11:38 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/01 00:07:45 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	handle_ambiguous_redir(t_shell *shell, t_token **token,
 		amb_redir((*token)->value, shell, token);
 		(*token)->amb_redir = true;
 		free(*expanded);
+		free((*token)->value);
+		(*token)->value = NULL;
 		ft_free_str_array(split);
 		return (0);
 	}

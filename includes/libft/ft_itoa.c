@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzutter <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 23:41:13 by mzutter           #+#    #+#             */
-/*   Updated: 2024/11/05 00:51:06 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/31 23:58:05 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,3 @@ char	*ft_itoa(int n)
 	}
 	return (str);
 }
-
-/*int main()
-{
-    //printf("%d", count_digits(-5));
-    printf("%s", ft_itoa(1654874));
-    return 0;
-}*/

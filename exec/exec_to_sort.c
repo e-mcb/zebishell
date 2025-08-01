@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 22:39:57 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/25 22:21:50 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/31 23:56:04 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	create_exec(t_shell *shell)
 	exec = new_node(NULL);
 	last = exec;
 	tmp = shell->token;
-	while (tmp)
+	while (tmp && g_signal != SIGINT)
 	{
 		if (is_redir(tmp) || tmp->type == HDOC)
 		{

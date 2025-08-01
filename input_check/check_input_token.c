@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:29:25 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/15 21:39:46 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/01 01:24:23 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ int	token_error(t_shell *shell)
 	t_token	*tmp;
 
 	tmp = shell->token;
+	if (tmp->type == PIPE)
+		return(ft_putstr_fd("syntax error near token '|'\n", 2), 1);
 	while (tmp)
 	{
 		if (tmp->type == OUT && tmp->next->type == PIPE)
 			return (ft_putstr_fd(NOCLOBBER, 2), 1);
 		if ((tmp->type == IN || tmp->type == APPEND
 				|| tmp->type == HDOC) && tmp->next->type == PIPE)
-			return (ft_putstr_fd("syntax error near token '|'", 2), 1);
+			return (ft_putstr_fd("syntax error near token '|'\n", 2), 1);
 		if ((is_redir(tmp) || tmp->type == HDOC) && tmp->next
 			&& (is_redir(tmp->next) || tmp->next->type == HDOC))
 		{

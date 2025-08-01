@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 22:30:37 by sradosav          #+#    #+#             */
-/*   Updated: 2025/07/26 03:01:48 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/01 01:59:47 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	handle_cd_errors(char *path, char **str, char *pwd_env)
 		if (str[1] && ft_strcmp(str[1], "-") == 0)
 			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
 		else
-			ft_putstr_fd("minishell cd: HOME not set\n", 2);
+			return (free(pwd_env), ft_putstr_fd("minishell cd: HOME not set\n", 2), 1);
 		return (1);
 	}
 	if (count_strings(str) > 2)
@@ -32,7 +32,7 @@ static int	handle_cd_errors(char *path, char **str, char *pwd_env)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": no such file in directory\n", 2);
+		ft_putstr_fd(": no such file or directory\n", 2);
 		free (pwd_env);
 		return (1);
 	}
@@ -56,7 +56,7 @@ static void	handle_broken_path(char *path, t_shell *shell)
 
 	ft_putstr_fd("erreur de détermination du répertoire actuel : ", 2);
 	ft_putstr_fd("getcwd : ne peut accéder aux répertoires parents ", 2);
-	ft_putstr_fd(": no such file in directory\n", 2);
+	ft_putstr_fd(": no such file or directory\n", 2);
 	temp = ft_strjoin(shell->pwd, "/");
 	if (!temp)
 		ft_clean_exit(NULL, shell, NULL, NULL);
@@ -97,6 +97,7 @@ int	ft_cd(char **str, t_shell *shell)
 	char	*path;
 
 	path = NULL;
+	pwd_env = NULL;
 	pwd_env = ft_getenv("PWD", shell);
 	if (pwd_env)
 		pwd_env = ft_strdup(pwd_env);

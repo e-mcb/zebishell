@@ -6,37 +6,66 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 21:51:01 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/31 19:33:21 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/01 01:15:24 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// void	execute_command(t_shell *shell, t_exec *tmp)
+// {
+// 	int		i;
+// 	char	*path;
+
+// 	i = 2;
+// 	path = NULL;
+// 	if (ft_strcmp(tmp->arr[0], "minishell") == 0)
+// 		path = (ft_strdup("/tmp/minishell"));
+// 	else if (tmp->arr[0][0] == '/' || tmp->arr[0][0] == '.')
+// 	{
+// 		if (access(tmp->arr[0], F_OK | X_OK) == 0)
+// 			path = tmp->arr[0];
+// 		else
+// 			print_permission_denied(tmp->arr[0]);
+// 	}
+// 	else
+// 		path = pathfinder(shell, tmp);
+// 	if (path == NULL)
+// 		print_command_not_found(tmp->arr[0]);
+// 	while (++i < 1023)
+// 		close(i);
+// 	execve(path, tmp->arr, shell->env_arr);
+// 	perror("command not found ");
+// 	exit(127);
+// }
+
 void	execute_command(t_shell *shell, t_exec *tmp)
 {
-	int		i;
-	char	*path;
+	int			i;
+	char		*path;
+	struct stat	st;
 
 	i = 2;
 	path = NULL;
+	if (stat(tmp->arr[0], &st) == 0 && S_ISDIR(st.st_mode))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(tmp->arr[0], 2);
+		ft_putstr_fd(": Is a directory\n", 2);
+		exit (126);
+	}
 	if (ft_strcmp(tmp->arr[0], "minishell") == 0)
 		path = (ft_strdup("/tmp/minishell"));
-	else if (tmp->arr[0][0] == '/' || tmp->arr[0][0] == '.')
-	{
-		if (access(tmp->arr[0], X_OK) == 0)
-			path = tmp->arr[0];
-		else
-			print_permission_denied(tmp->arr[0]);
-	}
+	if (tmp->arr[0][0] == '/' || tmp->arr[0][0] == '.')
+		path = tmp->arr[0];
 	else
 		path = pathfinder(shell, tmp);
-	if (path == NULL)
-		print_command_not_found(tmp->arr[0]);
+	if (path == NULL && access(tmp->arr[0], F_OK) == 0)
+		print_permission_denied(tmp->arr[0]);
 	while (++i < 1023)
 		close(i);
 	execve(path, tmp->arr, shell->env_arr);
-	perror("command not found ");
-	exit(127);
+	exit((print_command_not_found(tmp->arr[0]), 127));
 }
 
 pid_t	safe_fork(t_shell *shell)

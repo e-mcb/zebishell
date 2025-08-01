@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 11:16:07 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/26 02:42:06 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/01 00:36:25 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,15 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 
+	if (!isatty(STDIN_FILENO))
+	{
+		ft_putstr_fd("Not a tty\n", 2);
+		return (1);
+	}
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
-	printf("Welcome to minishell\n");
+	ft_putstr_fd("Welcome to minishell\n", 1);
 	(void)argc;
 	(void)argv;
 	shell = NULL;

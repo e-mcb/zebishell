@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 22:45:52 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/16 00:05:11 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/07/31 23:52:00 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*do_heredoc(const t_token *token, t_shell *shell)
 	else
 	{
 		result = read_heredoc_output(pipefd);
-		wait_for_heredoc_to_exit(pid, shell);
+		wait_for_heredoc_to_exit(pid, pipefd, shell);
 		signal(SIGINT, sigint_handler);
 	}
 	return (result);

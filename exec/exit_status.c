@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 21:36:46 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/30 21:36:47 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/01 00:09:07 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ void	wait_for_remaining_children(void)
 	}
 }
 
-void	wait_for_heredoc_to_exit(pid_t pid, t_shell *shell)
+void	wait_for_heredoc_to_exit(pid_t pid, int *pipefd, t_shell *shell)
 {
-	int		status;
-	int		sig;
+	int	status;
+	int	sig;
 
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status))
@@ -86,6 +86,13 @@ void	wait_for_heredoc_to_exit(pid_t pid, t_shell *shell)
 			write(1, "\n", 1);
 			shell->exit_status = 128 + sig;
 			g_signal = SIGINT;
+			close(pipefd[0]);
+			close(pipefd[1]);
 		}
+	}
+	else if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
 	}
 }

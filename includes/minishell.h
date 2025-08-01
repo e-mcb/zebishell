@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:31:47 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/31 19:56:04 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/01 00:15:26 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 # define MAX_FD 1023
 # define MAX_HEREDOC 16
-# define OPEN_QUOTES "Minishell does not support open quotes,\
+# define OPEN_Q "Minishell does not support open quotes,\
 please escape them properly\n"
 # define DOUBLE_DOLLARS "Minishell does not support $$\n"
 # define AMB_REDIR "minishell: Ambiguous redirect: "
@@ -251,7 +251,6 @@ void		init_splitter(t_splitter *splitter);
 //exit status
 void		wait_for_children_to_exit(t_shell *shell, pid_t last_pid);
 void		wait_for_remaining_children(void);
-void		wait_for_heredoc_to_exit(pid_t pid, t_shell *shell);
 
 //exec
 char		*pathfinder(t_shell *shell, t_exec *current);
@@ -278,7 +277,7 @@ void		print_permission_denied(char *cmd);
 void		print_command_not_found(char *cmd);
 
 void		wait_for_children_to_exit(t_shell *shell, pid_t last_pid);
-void		wait_for_heredoc_to_exit(pid_t pid, t_shell *shell);
+void		wait_for_heredoc_to_exit(pid_t pid, int *pipefd, t_shell *shell);
 int			is_str_digit(char *str);
 void		sigint_handler(int sig);
 void		ft_end_minishell(char *input, t_shell *shell,

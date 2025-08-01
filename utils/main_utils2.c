@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 19:46:47 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/15 21:19:46 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/01 00:15:35 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,36 @@ void	get_prompt_value(char **prompt, t_shell *shell)
 	}
 }
 
+// char	*prompt(t_shell *shell)
+// {
+// 	char	*input;
+// 	char	*prompt;
+
+// 	prompt = NULL;
+// 	get_prompt_value(&prompt, shell);
+// 	while (1)
+// 	{
+// 		input = readline(prompt);
+// 		if (prompt)
+// 			free(prompt);
+// 		if (input == NULL)
+// 		{
+// 			ft_putstr_fd("Goodbye\n", 2);
+// 			ft_end_minishell(NULL, shell, NULL, NULL);
+// 		}
+// 		if (input[0] != '\0')
+// 			add_history(input);
+// 		if (input[0] == 0)
+// 		{
+// 			free(input);
+// 			continue ;
+// 		}
+// 		if (ft_has_invalid_quotes(input))
+// 			return (ft_putstr_fd(OPEN_QUOTES, 2), free(input), NULL);
+// 		return (input);
+// 	}
+// }
+
 char	*prompt(t_shell *shell)
 {
 	char	*input;
@@ -65,9 +95,9 @@ char	*prompt(t_shell *shell)
 	while (1)
 	{
 		input = readline(prompt);
-		free(prompt);
 		if (input == NULL)
 		{
+			free(prompt);
 			ft_putstr_fd("Goodbye\n", 2);
 			ft_end_minishell(NULL, shell, NULL, NULL);
 		}
@@ -79,7 +109,7 @@ char	*prompt(t_shell *shell)
 			continue ;
 		}
 		if (ft_has_invalid_quotes(input))
-			return (ft_putstr_fd(OPEN_QUOTES, 2), free(input), NULL);
-		return (input);
+			return (free(prompt), ft_putstr_fd(OPEN_Q, 2), free(input), NULL);
+		return (free(prompt), input);
 	}
 }
