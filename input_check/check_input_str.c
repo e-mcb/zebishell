@@ -37,12 +37,17 @@ static size_t	strlen_no_trailing_ws(const char *str)
 
 int	string_error(char *input)
 {
-	if (input[0] == '|' || input[strlen_no_trailing_ws(input) - 1] == '|')
+	size_t	trimmed_len;
+
+	trimmed_len = strlen_no_trailing_ws(input);
+	if (trimmed_len == 0)
+		return (0);
+	if (input[0] == '|' || input[trimmed_len - 1] == '|')
 	{
 		ft_putstr_fd(PIPE_FIRST_LAST, 2);
 		return (1);
 	}
-	if (is_operator(input[strlen_no_trailing_ws(input) - 1]))
+	if (is_operator(input[trimmed_len - 1]))
 	{
 		ft_putstr_fd(OPERATOR_EXTREMITY, 2);
 		return (1);
