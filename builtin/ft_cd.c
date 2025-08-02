@@ -19,7 +19,8 @@ static int	handle_cd_errors(char *path, char **str, char *pwd_env)
 		if (str[1] && ft_strcmp(str[1], "-") == 0)
 			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
 		else
-			return (free(pwd_env), ft_putstr_fd("minishell cd: HOME not set\n", 2), 1);
+			return (free(pwd_env),
+				ft_putstr_fd("minishell cd: HOME not set\n", 2), 1);
 		return (1);
 	}
 	if (count_strings(str) > 2)

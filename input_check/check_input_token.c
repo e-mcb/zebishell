@@ -51,4 +51,3 @@ int	token_error(t_shell *shell)
 	}
 	return (0);
 }
-

@@ -19,14 +19,30 @@ static int	is_operator(char c)
 	return (0);
 }
 
+static size_t	strlen_no_trailing_ws(const char *str)
+{
+	size_t	len;
+	size_t	last_non_ws_index;
+
+	len = 0;
+	last_non_ws_index = 0;
+	while (str[len] != '\0')
+	{
+		if (!isspace((unsigned char)str[len]))
+			last_non_ws_index = len + 1;
+		len++;
+	}
+	return (last_non_ws_index);
+}
+
 int	string_error(char *input)
 {
-	if (input[0] == '|' || input[ft_strlen(input) - 1] == '|')
+	if (input[0] == '|' || input[strlen_no_trailing_ws(input) - 1] == '|')
 	{
 		ft_putstr_fd(PIPE_FIRST_LAST, 2);
 		return (1);
 	}
-	if (is_operator(input[ft_strlen(input) - 1]))
+	if (is_operator(input[strlen_no_trailing_ws(input) - 1]))
 	{
 		ft_putstr_fd(OPERATOR_EXTREMITY, 2);
 		return (1);
