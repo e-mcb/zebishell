@@ -25,38 +25,6 @@ int	ft_execsize(t_exec *exec)
 	return (i);
 }
 
-//void	wait_for_children_to_exit(t_shell *shell, pid_t last_pid)
-//{
-//	int		status;
-//	pid_t	wpid;
-//	int		sig;
-//	int		newline;
-//	int		quit;
-
-//	newline = 0;
-//	quit = 0;
-//	wpid = wait(&status);
-//	while (wpid > 0)
-//	{
-//		if (WIFSIGNALED(status))
-//		{
-//			sig = WTERMSIG(status);
-//			shell->exit_status = 128 + sig;
-//			if (sig == SIGQUIT)
-//				quit = 1;
-//			if (sig == SIGINT)
-//				newline = 1;
-//		}
-//		else if (wpid == last_pid && WIFEXITED(status))
-//			shell->exit_status = WEXITSTATUS(status);
-//		wpid = wait(&status);
-//	}
-//	if (newline)
-//		write(1, "\n", 1);
-//	if (quit)
-//		write(1, "Quit\n", 5);
-//}
-
 void	exec_loop(t_shell *shell)
 {
 	t_exec	*tmp;

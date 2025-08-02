@@ -71,37 +71,6 @@ void	handle_in_child(t_shell *shell, t_exec *cmd, int *pipe_fd)
 	handle_child_process(shell, cmd, pipe_fd);
 }
 
-//pid_t	execute_all_commands(t_shell *shell, t_exec *tmp,
-//		int *pipe_fd, int prev_fd_in)
-//{
-//	pid_t	pid;
-//	pid_t	last_pid;
-
-//	while (tmp)
-//	{
-//		if (!is_valid_command(tmp))
-//		{
-//			tmp = tmp->next;
-//			continue ;
-//		}
-//		if (check_for_dummy_builtin(tmp, shell))
-//			return (-1);	
-//		if (tmp->next != NULL)
-//			safe_pipe(pipe_fd, shell);
-//		signal(SIGINT, SIG_IGN);
-//		pid = safe_fork(shell);
-//		if (pid == 0)
-//			handle_in_child(shell, tmp, pipe_fd);
-//		else
-//		{
-//			last_pid = pid;
-//			close_parent_fds(tmp, pipe_fd, &prev_fd_in);
-//		}
-//		tmp = tmp->next;
-//	}
-//	return (last_pid);
-//}
-
 pid_t	execute_single_command(t_shell *shell, t_exec *cmd,
 							int *pipe_fd, int *prev_fd_in)
 {

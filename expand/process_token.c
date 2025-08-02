@@ -25,27 +25,6 @@ void	amb_redir(char *str, t_shell *shell, t_token **tmp)
 	(*tmp)->amb_redir = true;
 }
 
-// int	should_trigger_amb_redir(t_token *token, char **split)
-// {
-// 	int	len;
-
-// 	if (token->type == FILEN && !split)
-// 		return (1);
-// 	len = count_strings(split);
-// 	if ((token->type == FILEN && (len > 1 || len == 0)))
-// 		return (1);
-// 	return (0);
-// }
-
-// void	handle_ambiguous_redir(t_shell *shell, t_token **token,
-// 		char **expanded, char **split)
-// {
-// 	amb_redir((*token)->value, shell, token);
-// 	(*token)->amb_redir = true;
-// 	free(*expanded);
-// 	ft_free_str_array(split);
-// }
-
 int	handle_ambiguous_redir(t_shell *shell, t_token **token,
 		char **expanded, char **split)
 {
