@@ -43,6 +43,11 @@ int	handle_ambiguous_redir(t_shell *shell, t_token **token,
 		ft_free_str_array(split);
 		return (0);
 	}
+	if (!*expanded)
+	{
+		free ((*token)->value);
+		(*token)->value = NULL;
+	}
 	return (1);
 }
 
