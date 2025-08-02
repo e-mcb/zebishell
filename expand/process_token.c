@@ -51,10 +51,9 @@ int	handle_ambiguous_redir(t_shell *shell, t_token **token,
 {
 	int	len;
 
+	len = 0;
 	if (split)
 		len = count_strings(split);
-	else
-		len = 0;
 	if ((*token)->type == FILEN && (!split || (len != 1)))
 	{
 		amb_redir((*token)->value, shell, token);
@@ -88,13 +87,8 @@ int	process_token(t_shell *shell, t_token **tmp,
 	splitted = NULL;
 	*expanded = join_chars(split_and_expand((*tmp)->value, shell), shell);
 	if (!*expanded)
-	{
-		if (!handle_ambiguous_redir(shell, tmp, expanded, splitted))
-			(*tmp)->value = NULL;
-		return (0);
-	}
-		//return (handle_ambiguous_redir(shell, tmp,
-		//		expanded, splitted), (*tmp)->value = NULL, 0);
+		return (handle_ambiguous_redir(shell, tmp,
+				expanded, splitted), 0);
 	if ((*tmp)->to_split)
 		splitted = ft_split(*expanded, ' ');
 	else

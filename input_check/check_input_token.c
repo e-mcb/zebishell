@@ -29,14 +29,14 @@ int	token_error(t_shell *shell)
 	t_token	*tmp;
 
 	tmp = shell->token;
-	if (tmp->type == PIPE)
-		return(ft_putstr_fd("syntax error near token '|'\n", 2), 1);
+	if (tmp && tmp->type == PIPE)
+		return (ft_putstr_fd("syntax error near token '|'\n", 2), 1);
 	while (tmp)
 	{
-		if (tmp->type == OUT && tmp->next->type == PIPE)
+		if (tmp->type == OUT && tmp->next && tmp->next->type == PIPE)
 			return (ft_putstr_fd(NOCLOBBER, 2), 1);
-		if ((tmp->type == IN || tmp->type == APPEND
-				|| tmp->type == HDOC) && tmp->next->type == PIPE)
+		if ((tmp->type == IN || tmp->type == APPEND || tmp->type == HDOC)
+			&& tmp->next && tmp->next->type == PIPE)
 			return (ft_putstr_fd("syntax error near token '|'\n", 2), 1);
 		if ((is_redir(tmp) || tmp->type == HDOC) && tmp->next
 			&& (is_redir(tmp->next) || tmp->next->type == HDOC))
@@ -45,9 +45,10 @@ int	token_error(t_shell *shell)
 			print_msg(tmp->next);
 			return (1);
 		}
-		if (tmp->type == PIPE && tmp->next->type == PIPE)
+		if (tmp->type == PIPE && tmp->next && tmp->next->type == PIPE)
 			return (ft_putstr_fd(SUCCESSIVE_PIPES, 2), 1);
 		tmp = tmp->next;
 	}
 	return (0);
 }
+
