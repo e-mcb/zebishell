@@ -6,38 +6,11 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 21:51:01 by mzutter           #+#    #+#             */
-/*   Updated: 2025/08/01 01:15:24 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/03 15:08:23 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// void	execute_command(t_shell *shell, t_exec *tmp)
-// {
-// 	int		i;
-// 	char	*path;
-
-// 	i = 2;
-// 	path = NULL;
-// 	if (ft_strcmp(tmp->arr[0], "minishell") == 0)
-// 		path = (ft_strdup("/tmp/minishell"));
-// 	else if (tmp->arr[0][0] == '/' || tmp->arr[0][0] == '.')
-// 	{
-// 		if (access(tmp->arr[0], F_OK | X_OK) == 0)
-// 			path = tmp->arr[0];
-// 		else
-// 			print_permission_denied(tmp->arr[0]);
-// 	}
-// 	else
-// 		path = pathfinder(shell, tmp);
-// 	if (path == NULL)
-// 		print_command_not_found(tmp->arr[0]);
-// 	while (++i < 1023)
-// 		close(i);
-// 	execve(path, tmp->arr, shell->env_arr);
-// 	perror("command not found ");
-// 	exit(127);
-// }
 
 void	execute_command(t_shell *shell, t_exec *tmp)
 {
@@ -46,7 +19,6 @@ void	execute_command(t_shell *shell, t_exec *tmp)
 	struct stat	st;
 
 	i = 2;
-	path = NULL;
 	if (stat(tmp->arr[0], &st) == 0 && S_ISDIR(st.st_mode))
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -64,7 +36,8 @@ void	execute_command(t_shell *shell, t_exec *tmp)
 		print_permission_denied(tmp->arr[0]);
 	while (++i < 1023)
 		close(i);
-	execve(path, tmp->arr, shell->env_arr);
+	if (path)
+		execve(path, tmp->arr, shell->env_arr);
 	exit((print_command_not_found(tmp->arr[0]), 127));
 }
 
