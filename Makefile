@@ -45,6 +45,7 @@ SRCS = main.c \
 	$(EXPAND_DIR)/process_token.c \
 	$(EXPAND_DIR)/insert_new_nodes.c \
 	$(BUILTIN_DIR)/ft_cd.c \
+	$(BUILTIN_DIR)/ft_cd2.c \
 	$(BUILTIN_DIR)/ft_echo.c \
 	$(BUILTIN_DIR)/ft_env.c \
 	$(BUILTIN_DIR)/ft_exit.c \

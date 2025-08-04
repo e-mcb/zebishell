@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:31:47 by mzutter           #+#    #+#             */
-/*   Updated: 2025/08/01 00:15:26 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/04 18:05:04 by sradosav         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ t_exec		*new_node(t_exec *head);
 //builtins
 int			ft_export(char **str, t_shell *shell, int exec_size, int fd_out);
 int			ft_cd(char **str, t_shell *shell);
+char		*cd_home(t_shell *shell);
 int			ft_echo(t_exec **exec, t_shell *shell, int exec_size, int fd_out);
 int			ft_env(char **str, t_shell *shell, int exec_size, int fd_out);
 int			ft_exit(char **arr, t_shell *shell, int exec_size);
@@ -294,7 +295,6 @@ void		dummy_unset(t_shell *shell);
 void		ft_print_export(t_shell *shell, int fd_out, int exec_size);
 int			ft_exit_argcheck(int c);
 int			ft_is_number(const char *str);
-
 char		*init_pwd(t_shell *shell);
 
 //main utils

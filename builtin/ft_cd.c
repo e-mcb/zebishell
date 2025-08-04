@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sradosav <sradosav@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 22:30:37 by sradosav          #+#    #+#             */
-/*   Updated: 2025/08/01 01:59:47 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/04 18:04:22 by sradosav         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	handle_broken_path(char *path, t_shell *shell)
 static int	define_path(char **str, char **path, t_shell *shell, char *pwd_env)
 {
 	if (!str[1] || (str[1] && ft_strcmp(str[1], "~") == 0))
-		*path = ft_getenv("HOME", shell);
+		*path = cd_home(shell);
 	else if (str[1] && ft_strcmp(str[1], "-") == 0)
 	{
 		*path = ft_getenv("OLDPWD", shell);
@@ -87,7 +87,12 @@ static int	define_path(char **str, char **path, t_shell *shell, char *pwd_env)
 		ft_putchar_fd('\n', 1);
 	}
 	else
-		*path = str[1];
+	{
+		if ((str[1] && str[1][0] == 0))
+			*path = ".";
+		else
+			*path = str[1];
+	}
 	return (0);
 }
 
