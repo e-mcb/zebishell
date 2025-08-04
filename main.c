@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 11:16:07 by mzutter           #+#    #+#             */
-/*   Updated: 2025/08/01 00:36:25 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/04 20:12:11 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,14 @@ static void	minishell_loop(t_shell *shell)
 		if (string_error(input))
 		{
 			free (input);
+			shell->exit_status = 2;
 			continue ;
 		}
 		ft_parsing(input, shell);
 		if (token_error(shell) == 0)
 			process_executing(shell);
+		else
+			shell->exit_status = 2;
 		end_loop(shell);
 	}
 }
