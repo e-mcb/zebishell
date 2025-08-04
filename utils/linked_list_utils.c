@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:43:06 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/26 00:06:48 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/04 19:30:09 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@ t_token	*create_token(char *str, t_shell *shell)
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		ft_clean_exit(NULL, shell, NULL, NULL);
-	new_token->value = ft_strdup(str);
-	new_token->type = -1;
-	if (!new_token->value)
+	if (str)
 	{
-		free(new_token);
-		return (NULL);
+		new_token->value = ft_strdup(str);
+		if (!new_token->value)
+			return (free(new_token), NULL);
 	}
+	else
+		new_token->value = NULL;
+	new_token->type = -1;
 	new_token->next = NULL;
 	new_token->in_quotes = false;
 	new_token->to_split = true;

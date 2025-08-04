@@ -6,7 +6,7 @@
 /*   By: mzutter <mzutter@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 14:20:51 by mzutter           #+#    #+#             */
-/*   Updated: 2025/07/26 01:54:03 by mzutter          ###   ########.fr       */
+/*   Updated: 2025/08/04 18:49:48 by mzutter          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	init_ex(t_expand *ex, int size)
 	ex->in_single_quote = false;
 	ex->in_double_quote = false;
 	ex->result = malloc(sizeof(char *) * (size + 1));
-	ex->result[0] = NULL;
+	ex->result[0] = 0;
 }
 
 static void	process_single_quote(const char *input,
